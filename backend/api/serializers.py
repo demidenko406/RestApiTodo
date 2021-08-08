@@ -11,5 +11,5 @@ class TaskSerializer(serializers.ModelSerializer):
 class TagSerializer(serializers.ModelSerializer):
     
     class Meta:
-        model = Task
+        model = TaskTags
         fields = ('__all__')
