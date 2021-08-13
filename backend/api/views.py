@@ -1,5 +1,5 @@
 from rest_framework.response import Response
-from api.serializers import TagSerializer, TaskSerializer
+from .serializers import TagSerializer, TaskSerializer
 from django.shortcuts import render
 from rest_framework.views import APIView
 from .models import Task,TaskTags    
