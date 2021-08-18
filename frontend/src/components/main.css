@@ -1,0 +1,59 @@
+#main
+{
+    width: 1000px;
+    margin: auto;
+    /*display: flex;*/
+    align-items: center;
+
+}
+
+#List
+{
+    background-color:rgba(246, 248, 249, 0.466);
+    width: 1000px;
+    margin: auto;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+
+}
+
+#TaskList
+{
+    align-items: center;
+    width: 600px;
+    
+}
+
+.Tag{
+    padding: 0.5em;
+    font-size: 1.5em;
+    font-weight: 500;
+}
+
+#TagList
+{
+    padding-top: 2em;
+    padding-bottom: 2em;
+    /* margin-right: 50%; */
+    padding-left: 3em;
+    padding-right: 3em; ;
+    background-color: #f0f0f0;
+}
+
+.Task{
+    font-size: 1.3em;
+    text-align: left;
+    padding: 0.5em 1em 0.5em 1em;
+    /* padding-left: 80%; */
+    border-bottom: solid;
+    /* border-top: solid; */
+    border-width: 1px;
+
+    border-color: #7474743f;
+}
+
+.btn {
+    white-space: normal;
+    
+}
