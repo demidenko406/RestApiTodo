@@ -25,10 +25,14 @@
     
 }
 
+
+
 .Tag{
     padding: 0.5em;
     font-size: 1.5em;
     font-weight: 500;
+    cursor: pointer;
+
 }
 
 #TagList

@@ -1,5 +1,5 @@
 import '/home/kalacey412/Workspace/2.ProgrammingFiles/2.Projects/RestAPITodo/frontend/src/App.css';
-import React, { Component } from 'react'
+import React from 'react'
 
 export function NavBar() {
   return (

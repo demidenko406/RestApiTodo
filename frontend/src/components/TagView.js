@@ -2,22 +2,23 @@ import React, { useEffect,useState,useRef } from 'react'
 import './main.css';
 import {
   Link,
-  useLocation
+  useParams
 } from "react-router-dom";
 import axios from 'axios';
 
 
-export function List ()
+export function TagList ()
 {
     const [api_data,setData] = useState()
-    const apiURL = 'http://localhost:8000/api/task'
 
     let location = useLocation();
+    let { id } = useParams()
+    const apiURL = `http://localhost:8000/api/tag/${id}`
+
 
     useEffect(() =>{
-      console.log(apiUrl)
+      console.log(apiURL)
       let mounted = true
-      
       async function fetchList() {
         const request = await axios.get(apiURL) 
         if(mounted){
@@ -37,11 +38,9 @@ export function List ()
           <div id = "main">
             <div id = "List">
             <div id = "TagList">
-                  {api_data.api_data.tags.map((tag)=>
-                    <div className = "Tag" style = {{ display:"flex" }} key = {tag.id}  >
-                      <p>{tag.title}</p>
-                    </div>
-                  )}
+            <div className = "Tag" style = {{ display:"flex" }} key = {tag.id}  >
+                <p>{api_data.api_data.tags.title}</p>
+            </div>
 
               </div>
               

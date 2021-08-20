@@ -1,10 +1,10 @@
 import './App.css';
-import React, { Component } from 'react';
 import { List } from './components/List';
 import { NavBar } from './components/NavBar';
-
 import { TaskDelete } from './components/DeleteTask';
 import { TaskCreate } from './components/AddTask';
+import { TaskUpdate } from './components/UpdateTask';
+import { TagList } from './components/TagView';
 import{
   BrowserRouter,
   Route,
@@ -27,10 +27,14 @@ function App() {
       <Route exact path="/create-task">
         <TaskCreate />
       </Route>
-      
+      <Route exact path="/update-task/:id">
+        <TaskUpdate />
+      </Route>
+      <Route exact path="/tag/:id">
+        <TagList />
+      </Route>
     </div> 
     </BrowserRouter>
-
   );
 }
 

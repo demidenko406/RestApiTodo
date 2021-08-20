@@ -1,10 +1,10 @@
 import React, { useEffect,useRef } from 'react'
 import axios from 'axios'
-import { Redirect,useParams} from 'react-router-dom'
+import { Redirect} from 'react-router-dom'
 import { useState } from 'react'
 import './AddTask.css'
 
-export function TaskCreate(props)
+export function TaskCreate()
 {
     const firstUpdate = useRef(true);
     const [toAdd,setToAdd] = useState(false)
@@ -24,9 +24,23 @@ export function TaskCreate(props)
         {
             firstUpdate.current=false
         }
-        else
-        {
-            axios.post('http://127.0.0.1:8000/api/task/', post).then(setToRedirect(true))
+        else{
+                
+            async function HandleAdd()
+            {
+                try
+                {
+                await axios.post(`http://127.0.0.1:8000/api/task/`,post)
+                setToRedirect(true)
+                }
+                catch(error)
+                {
+                    console.log(error);
+                }
+                
+            }
+            HandleAdd()
+
         }
     },[toAdd])
 

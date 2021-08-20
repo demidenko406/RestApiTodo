@@ -1,12 +1,11 @@
 import React from 'react'
 import axios from 'axios'
-import { Redirect,useParams,useHistory} from 'react-router-dom'
+import { Redirect,useParams} from 'react-router-dom'
 import { useState,useEffect,useRef } from 'react'
 import './delete-submit.css'
 
-export function TaskDelete(props)
+export function TaskDelete()
 {
-    let history = useHistory();
     let { id } = useParams()
     const firstUpdate = useRef(true);
     const [toDelete,setToDelete] = useState(false)
@@ -18,14 +17,28 @@ export function TaskDelete(props)
         {
             firstUpdate.current=false
         }
-        else
-        {
-            axios.delete(`http://127.0.0.1:8000/api/task/${id}`).then(setToRedirect(true))
+        else{
+                
+            async function HandleDelete()
+            {
+                try
+                {
+                await axios.delete(`http://127.0.0.1:8000/api/task/${id}`)
+                setToRedirect(true)
+                }
+                catch(error)
+                {
+                    console.log(error);
+                }
+                
+            }
+            HandleDelete()
+
         }
     },[toDelete])
 
     if(toRedirect===true){
-        history.push("/")
+        return <Redirect to = "/" />
     }
 
     return(
