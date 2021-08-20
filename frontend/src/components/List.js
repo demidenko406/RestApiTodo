@@ -15,7 +15,7 @@ export function List ()
     let location = useLocation();
 
     useEffect(() =>{
-      console.log(apiUrl)
+      console.log(apiURL)
       let mounted = true
       
       async function fetchList() {
@@ -38,9 +38,11 @@ export function List ()
             <div id = "List">
             <div id = "TagList">
                   {api_data.api_data.tags.map((tag)=>
-                    <div className = "Tag" style = {{ display:"flex" }} key = {tag.id}  >
+                    <Link to = {`/tag/${tag.id}`} className = "TextLink" key = {tag.id}>
+                      <div className = "Tag" style = {{ display:"flex" }} >
                       <p>{tag.title}</p>
                     </div>
+                    </Link>
                   )}
 
               </div>
@@ -49,25 +51,24 @@ export function List ()
               <div id = "TaskList">
                 {api_data.api_data.tasks.map((task)=>
                   <div className = "Task" style = {{ display:"flex" }}  key = {task.id} >
+                      <Link to = {`/update-task/${task.id}`} className = "TextLink">
                       <p style = {{margin:"10px",paddingRight:"90%"}} >{task.title}</p>
-                      <Link to = {{
-                      pathname:`/update-task/${task.id}`,
-                      state:{
-                        tasks:task,
-                        tags:api_data.api_data.tags
-                        }}}>
-                          <button style = {{ margin:"10px",float:"right"}} className="btn btn-outline-info">Update</button>
                       </Link>   
-                    <Link to = {`/delete-task/${task.id}`}>
-                      <button style = {{ margin:"10px",float:"right"}} className="btn btn-outline-danger">Delete</button>
-                      </Link>
-                    <button style = {{ margin:"10px",float:"right"}} className="btn btn-outline-success">Complete</button>
+                      <div className = "Buttons">
+                        <Link to = {`/delete-task/${task.id}`}>
+                          <button style = {{ margin:"10px"}} className="btn btn-outline-danger">Delete</button>
+                        </Link>
+                        <button  style = {{ margin:"10px"}} className="btn btn-outline-success">Complete</button>
+                      </div>
                   </div>
                 )}
               </div>
             </div>
-  
-            <Link to = {"/create-task/"}><button className="btn btn-outline-dark" style = {{width:"1000px"}} >+ Add Task</button></Link>
+            <div className = "Add">
+            <Link to = {"/create-tag/"}><button className="btn btn-outline-dark" style = {{width:"170px"}} >+ Add Tag</button></Link>
+            <Link to = {"/create-task/"}><button className="btn btn-outline-dark" style = {{width:"830px"}} >+ Add Task</button></Link>
+            </div>
+
           </div>     
           </>
       )

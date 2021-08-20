@@ -16,6 +16,15 @@ class MainView(ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
     
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer  = self.get_serializer(instance)
+        tags = TaskTags.objects.all()
+        tags_serializer = TagSerializer(tags, many=True)
+        return Response({
+            'tags':tags_serializer.data,
+            'task':serializer.data,
+            })
     
     def list(self, request, *args, **kwargs):
         tasks = Task.objects.all()
@@ -42,7 +51,8 @@ class TagViewSet(ModelViewSet):
         print(serializer.data)
         tasks = Task.objects.filter(tag = instance)
         task_serializer = TaskSerializer(tasks, many=True)
-        
+        tags = TaskTags.objects.all()
+        tags_serializer = TagSerializer(tags, many=True)
         
 
         return Response({

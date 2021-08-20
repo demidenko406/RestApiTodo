@@ -1,24 +1,22 @@
-import React, { useEffect,useRef } from 'react'
+import React, { useEffect,useRef,useState } from 'react'
 import axios from 'axios'
 import { Redirect,useParams,useLocation} from 'react-router-dom'
-import { useState } from 'react'
 
 
 
 export function TaskUpdate(props)
 {
-    const location = useLocation()
-    const { tasks,tags } = location.state
-    // const { tags } = location.state.tags
-    const [data,setData] = useState(tasks)
+    const { id } = useParams()
+    const [data,setData] = useState()
     const [toAdd,setToAdd] = useState(false)
     const [toRedirect,setToRedirect] = useState(false)
+    const [intial,setInitial] = useState()
     const firstUpdate = useRef(true);
 
     useEffect(()=>{
         if(firstUpdate.current)
         {
-            firstUpdate.current=false
+            firstUpdate.current = false
         }
         else{
                 
@@ -26,7 +24,7 @@ export function TaskUpdate(props)
             {
                 try
                 {
-                await axios.put(`http://127.0.0.1:8000/api/task/${data.id}/`,data)
+                await axios.put(`http://127.0.0.1:8000/api/task/${id}/`,data)
                 setToRedirect(true)
                 }
                 catch(error)
@@ -40,11 +38,30 @@ export function TaskUpdate(props)
         }
     },[toAdd])
 
+    useEffect(() =>{
+        let mounted = true
+        
+        async function fetchList() {
+          const request = await axios.get(`http://127.0.0.1:8000/api/task/${id}/`) 
+          if(mounted){
+            console.log(request)
+            await setData(request.data.task)
+            await setInitial(request.data.tags)
+
+          }
+        }
+        fetchList()
+        console.log(intial)
+        return () => {
+          mounted = false
+        }
+      },[])
+
     if(toRedirect===true){
         return <Redirect to = "/" />
     }
 
-    
+    if (intial){
      return(
         <div className="formAdd">
             <div className="mb-3">
@@ -59,9 +76,8 @@ export function TaskUpdate(props)
             <label className="form-label" placeholder="MM-DD-YY" >Date</label>
             <input type="date" className="form-control" id="exampleFormControlInput1" defaultValue = {data.due_date} onChange = {(e) => {setData({...data,due_date:e.target.value})}}/>
             </div>
-            <input type="submit" value="Submit" className="btn btn-primary btn-lg" onClick = {()=>(setToAdd(true))}/>
             <select className="form-select" multiple onChange = {(e) => {setData({...data,tag:Array.from(e.target.selectedOptions,option => option.value)})}}>
-                {tags.map((tag)=>{
+                {intial.map((tag)=>{
                     if(data.tag.includes(tag.id)){
                         return <option key = {tag.id} value = {parseInt(tag.id)} selected = {true}>{tag.title}</option>
                     }
@@ -71,6 +87,14 @@ export function TaskUpdate(props)
                 })}
                 
             </select>
+            <input type="submit" value="Submit" className="btn btn-primary btn-lg" onClick = {()=>(setToAdd(true))}/>
+
       </div>
     )
+            }
+            else{
+    return <div />
+    
+    }
+
 }

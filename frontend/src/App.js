@@ -5,6 +5,9 @@ import { TaskDelete } from './components/DeleteTask';
 import { TaskCreate } from './components/AddTask';
 import { TaskUpdate } from './components/UpdateTask';
 import { TagList } from './components/TagView';
+import { TagCreate } from './components/AddTag';
+import { TagDelete } from './components/DeleteTag';
+
 import{
   BrowserRouter,
   Route,
@@ -21,6 +24,12 @@ function App() {
           <List />
         </>
       </Route>
+      <Route exact path="/tag/:id">
+      <>
+          <NavBar />
+          <TagList />
+        </>
+      </Route>
       <Route exact path="/delete-task/:id">
         <TaskDelete />
       </Route>
@@ -30,8 +39,11 @@ function App() {
       <Route exact path="/update-task/:id">
         <TaskUpdate />
       </Route>
-      <Route exact path="/tag/:id">
-        <TagList />
+      <Route exact path="/create-tag/">
+        <TagCreate />
+      </Route>
+      <Route exact path="/delete-tag/:id">
+        <TagDelete/>
       </Route>
     </div> 
     </BrowserRouter>

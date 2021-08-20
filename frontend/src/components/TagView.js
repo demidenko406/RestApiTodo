@@ -10,8 +10,6 @@ import axios from 'axios';
 export function TagList ()
 {
     const [api_data,setData] = useState()
-
-    let location = useLocation();
     let { id } = useParams()
     const apiURL = `http://localhost:8000/api/tag/${id}`
 
@@ -23,14 +21,14 @@ export function TagList ()
         const request = await axios.get(apiURL) 
         if(mounted){
           console.log("execute")
-          await setData({api_data:request.data})
+          await setData(request.data)
         }
       }
       fetchList()
       return () => {
         mounted = false
       }
-    },[location])
+    },[])
       
     if (api_data) {
       return(
@@ -38,23 +36,26 @@ export function TagList ()
           <div id = "main">
             <div id = "List">
             <div id = "TagList">
-            <div className = "Tag" style = {{ display:"flex" }} key = {tag.id}  >
-                <p>{api_data.api_data.tags.title}</p>
+            <Link to = "/" className = "TextLink"><div className = "Tag" style = {{ display:"flex" }}>
+                <p>All</p>
             </div>
-
+            </Link>
+            <div className = "Tag" style = {{ display:"flex" }}>
+                <p>{api_data.tag.title}</p>
+            </div>
+            <Link to = {`/delete-tag/${id}`} className = "TextLink">
+                <div className = "Tag" style = {{ display:"flex" }}>
+                    <p>Delete Tag</p>
+                </div>
+            </Link>
               </div>
               
               {/* Tasks */}
               <div id = "TaskList">
-                {api_data.api_data.tasks.map((task)=>
+                {api_data.tasks.map((task)=>
                   <div className = "Task" style = {{ display:"flex" }}  key = {task.id} >
                       <p style = {{margin:"10px",paddingRight:"90%"}} >{task.title}</p>
-                      <Link to = {{
-                      pathname:`/update-task/${task.id}`,
-                      state:{
-                        tasks:task,
-                        tags:api_data.api_data.tags
-                        }}}>
+                      <Link to = {`/update-task/${task.id}`}>
                           <button style = {{ margin:"10px",float:"right"}} className="btn btn-outline-info">Update</button>
                       </Link>   
                     <Link to = {`/delete-task/${task.id}`}>

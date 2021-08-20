@@ -25,7 +25,20 @@
     
 }
 
+.TextLink{
+    text-decoration: none;
+    color: black;
+    width: 4em;
+    margin-right: 4em;
+    
+}
 
+.Buttons{
+    float: right;
+    display: block;
+    margin-left: 10px;
+    
+}
 
 .Tag{
     padding: 0.5em;
