@@ -1,31 +1,27 @@
 from rest_framework import serializers
 from rest_framework import response
 from rest_framework.response import Response
-from .serializers import TagSerializer, TaskSerializer
+from .serializers import TagSerializer, TaskSerializer,UserSerializer
 from django.shortcuts import render
 from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
+from rest_framework import status
 from .models import Task,TaskTags    
-from rest_framework.permissions import SAFE_METHODS, IsAuthenticatedOrReadOnly, BasePermission, IsAdminUser, DjangoModelPermissions
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet,GenericViewSet
 from rest_framework.mixins import CreateModelMixin,UpdateModelMixin,DestroyModelMixin,ListModelMixin
 
-
-class UserPermission(BasePermission):
-    message = 'All actions is restricted to the author only.'
-    def has_object_permission(self, request, view, obj):
-        return obj.user == request.user
-
-class MainView(ModelViewSet,UserPermission):
+class MainView(ModelViewSet):
     
-    permission_classes = [UserPermission]
+    permission_classes = [IsAuthenticated]
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
     
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer  = self.get_serializer(instance)
-        tags = TaskTags.objects.all().filter(user = self.request.user)
+        tags = TaskTags.objects.all()
         tags_serializer = TagSerializer(tags, many=True)
         return Response({
             'tags':tags_serializer.data,
@@ -33,9 +29,9 @@ class MainView(ModelViewSet,UserPermission):
             })
     
     def list(self, request, *args, **kwargs):
-        tasks = Task.objects.all().filter(user = self.request.user)
+        tasks = Task.objects.all()
         task_serializer = TaskSerializer(tasks, many=True)
-        tags = TaskTags.objects.all().filter(user = self.request.user)
+        tags = TaskTags.objects.all()
         tags_serializer = TagSerializer(tags, many=True)
         return Response({
             'tasks':task_serializer.data,
@@ -46,12 +42,12 @@ class MainView(ModelViewSet,UserPermission):
 
 class TagViewSet(ModelViewSet):
     
-    permission_classes = [UserPermission]
+    permission_classes = [IsAuthenticated]
     queryset = TaskTags.objects.all()
     serializer_class = TagSerializer
     
     def list(self, request, *args, **kwargs):
-        tags = TaskTags.objects.all().filter(user = self.request.user)
+        tags = TaskTags.objects.all()
         response = TagSerializer(tags, many=True)
         return Response(response.data)
     
@@ -60,9 +56,9 @@ class TagViewSet(ModelViewSet):
         instance = self.get_object()
         serializer  = self.get_serializer(instance)
         print(serializer.data)
-        tasks = Task.objects.filter(tag = instance)
+        tasks = Task.objects
         task_serializer = TaskSerializer(tasks, many=True)
-        tags = TaskTags.objects.all().filter(user = self.request.user)
+        tags = TaskTags.objects.all()
         tags_serializer = TagSerializer(tags, many=True)
         
 
@@ -74,3 +70,14 @@ class TagViewSet(ModelViewSet):
 
 
 
+class Register(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, format='json'):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            if user:
+                json = serializer.data
+                return Response(json, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

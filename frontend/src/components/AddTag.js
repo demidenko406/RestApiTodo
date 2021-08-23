@@ -2,7 +2,7 @@ import React, { useEffect,useRef } from 'react'
 import axios from 'axios'
 import { Redirect} from 'react-router-dom'
 import { useState } from 'react'
-import './AddTask.css'
+import './Form.css'
 
 export function TagCreate()
 {
@@ -45,13 +45,11 @@ export function TagCreate()
     
     return(
         <div className="formAdd">
-
             <div className="mb-3">
                 <label  className="form-label">Tag</label>
                 <input type="name" className="form-control" id="exampleFormControlInput1" onChange = {e=>{setPost({...post,title:e.target.value})}} />
             </div>
             <input type="submit" value="Submit" className="btn btn-primary btn-lg" onClick = {()=>(setToAdd(true))}/>
-
       </div>
     )
 }

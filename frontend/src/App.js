@@ -12,6 +12,8 @@ import{
   BrowserRouter,
   Route,
 } from "react-router-dom";
+import { Register } from './components/Register';
+import { Login } from './components/Login';
 
 
 function App() {
@@ -24,26 +26,32 @@ function App() {
           <List />
         </>
       </Route>
-      <Route exact path="/tag/:id">
+      <Route exact path="/tag/:id/">
       <>
           <NavBar />
           <TagList />
         </>
       </Route>
-      <Route exact path="/delete-task/:id">
+      <Route exact path="/delete-task/:id/">
         <TaskDelete />
       </Route>
-      <Route exact path="/create-task">
+      <Route exact path="/create-task/">
         <TaskCreate />
       </Route>
-      <Route exact path="/update-task/:id">
+      <Route exact path="/update-task/:id/">
         <TaskUpdate />
       </Route>
       <Route exact path="/create-tag/">
         <TagCreate />
       </Route>
-      <Route exact path="/delete-tag/:id">
+      <Route exact path="/delete-tag/:id/">
         <TagDelete/>
+      </Route>
+      <Route exact path="/register/">
+        <Register/>
+      </Route>
+      <Route exact path="/login/">
+        <Login/>
       </Route>
     </div> 
     </BrowserRouter>

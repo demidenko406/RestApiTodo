@@ -1,10 +1,12 @@
+
+
 import React, { useEffect,useRef } from 'react'
 import axios from 'axios'
 import { Redirect} from 'react-router-dom'
 import { useState } from 'react'
 import './Form.css'
 
-export function TaskCreate()
+export function Register()
 {
     const firstUpdate = useRef(true);
     const [toAdd,setToAdd] = useState(false)
@@ -49,22 +51,24 @@ export function TaskCreate()
     }
     
     return(
-        <div className="formAdd">
-
-            <div className="mb-3">
-            <label  className="form-label">TaskName</label>
-            <input type="name" className="form-control" id="exampleFormControlInput1" onChange = {e=>{setPost({...post,title:e.target.value})}} />
+        <>
+        <h1 style = {{margin:"auto"}}>Register</h1>
+        <form>
+            <div className="mb-3" style = {{width:"800px",margin:"auto",marginTop:"20em"}}>
+                <label for="exampleInputEmail1" className="form-label">Email address</label>
+                <input type="email" className="form-control" id="exampleInputEmail1" ariaDescribedby="emailHelp" />
+                <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
             </div>
-            <div className="mb-3">
-            <label className="form-label" >Description</label>
-            <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" onChange = {e=>{setPost({...post,description:e.target.value})}}></textarea>
+            <div className="mb-3" style = {{width:"800px",margin:"auto"}}>
+                <label className="form-label">Username</label>
+                <input className="form-control" type="text" />
             </div>
-            <div className="mb-3">
-            <label className="form-label" placeholder="MM-DD-YY" >Date</label>
-            <input type="date" className="form-control" id="exampleFormControlInput1" onChange = {e=>{setPost({...post,due_date:e.target.value})}} />
+            <div class="mb-3" style = {{width:"800px",margin:"auto"}}>
+                <label for="exampleInputPassword1" className="form-label">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" />
             </div>
-            <input type="submit" value="Submit" className="btn btn-primary btn-lg" onClick = {()=>(setToAdd(true))}/>
-
-      </div>
+            <button type="submit" className="btn btn-primary">Submit</button>
+        </form> 
+        </>
     )
 }
