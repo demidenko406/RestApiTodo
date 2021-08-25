@@ -1,5 +1,5 @@
 import React from 'react'
-import axios from 'axios'
+import axios from '../axios'
 import { Redirect,useParams} from 'react-router-dom'
 import { useState,useEffect,useRef } from 'react'
 import './delete-submit.css'

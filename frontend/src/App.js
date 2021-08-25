@@ -1,6 +1,5 @@
 import './App.css';
 import { List } from './components/List';
-import { NavBar } from './components/NavBar';
 import { TaskDelete } from './components/DeleteTask';
 import { TaskCreate } from './components/AddTask';
 import { TaskUpdate } from './components/UpdateTask';
@@ -14,6 +13,7 @@ import{
 } from "react-router-dom";
 import { Register } from './components/Register';
 import { Login } from './components/Login';
+import { Logout } from './components/Logout';
 
 
 function App() {
@@ -22,13 +22,11 @@ function App() {
     <div className="App">
       <Route exact path="/">
         <>
-          <NavBar />
           <List />
         </>
       </Route>
       <Route exact path="/tag/:id/">
       <>
-          <NavBar />
           <TagList />
         </>
       </Route>
@@ -52,6 +50,9 @@ function App() {
       </Route>
       <Route exact path="/login/">
         <Login/>
+      </Route>
+      <Route exact path="/logout/">
+        <Logout/>
       </Route>
     </div> 
     </BrowserRouter>

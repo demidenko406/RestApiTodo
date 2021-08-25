@@ -1,7 +1,5 @@
-from django.db import models
-from rest_framework import fields, serializers
+from rest_framework import serializers
 from api.models import Task,TaskTags,User
-
 
 class TaskSerializer(serializers.ModelSerializer):
     
@@ -16,10 +14,8 @@ class TagSerializer(serializers.ModelSerializer):
         exclude = ('user',)        
         
 class UserSerializer(serializers.ModelSerializer):
-    """
-    """
     email = serializers.EmailField(required=True)
-    user_name = serializers.CharField(required=True)
+    username = serializers.CharField(required=True)
     password = serializers.CharField(min_length=8, write_only=True)
 
     class Meta:

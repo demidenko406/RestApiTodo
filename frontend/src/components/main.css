@@ -35,9 +35,8 @@
 
 .Buttons{
     float: right;
-    display: block;
-    margin-left: 10px;
-    
+    display: flex;
+    margin-left: 2em;
 }
 
 .Tag{
@@ -66,6 +65,8 @@
     border-bottom: solid;
     /* border-top: solid; */
     border-width: 1px;
+    margin-right: 50px;
+
 
     border-color: #7474743f;
 }

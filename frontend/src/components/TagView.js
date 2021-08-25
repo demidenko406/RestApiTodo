@@ -4,7 +4,8 @@ import {
   Link,
   useParams
 } from "react-router-dom";
-import axios from 'axios';
+import axios from '../axios'
+import NavBar from './NavBar'
 
 
 export function TagList ()
@@ -33,6 +34,7 @@ export function TagList ()
     if (api_data) {
       return(
         <>
+          <NavBar user = {api_data.user.username} />
           <div id = "main">
             <div id = "List">
             <div id = "TagList">
@@ -53,6 +55,7 @@ export function TagList ()
               {/* Tasks */}
               <div id = "TaskList">
                 {api_data.tasks.map((task)=>
+                  {if(!task.complete){                  
                   <div className = "Task" style = {{ display:"flex" }}  key = {task.id} >
                       <p style = {{margin:"10px",paddingRight:"90%"}} >{task.title}</p>
                       <Link to = {`/update-task/${task.id}`}>
@@ -63,6 +66,7 @@ export function TagList ()
                       </Link>
                     <button style = {{ margin:"10px",float:"right"}} className="btn btn-outline-success">Complete</button>
                   </div>
+                  }}
                 )}
               </div>
             </div>

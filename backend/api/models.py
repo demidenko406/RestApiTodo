@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-
 class User(AbstractUser):
     username = models.CharField(max_length=255)
     email = models.EmailField(max_length=255,unique=True)
@@ -11,10 +10,7 @@ class User(AbstractUser):
     
     def __str__(self):
         return self.username
-    
 
-
-# Task Tags
 class TaskTags(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
     title = models.CharField(max_length=200)
@@ -24,7 +20,6 @@ class TaskTags(models.Model):
     class Meta:
         ordering = ['title']
     
-
 class Task(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
     title = models.CharField(max_length=200)

@@ -1,5 +1,5 @@
 import React, { useEffect,useRef,useState } from 'react'
-import axios from 'axios'
+import axios from '../axios'
 import { Redirect,useParams,useLocation} from 'react-router-dom'
 
 
@@ -79,7 +79,7 @@ export function TaskUpdate(props)
             <select className="form-select" multiple onChange = {(e) => {setData({...data,tag:Array.from(e.target.selectedOptions,option => option.value)})}}>
                 {intial.map((tag)=>{
                     if(data.tag.includes(tag.id)){
-                        return <option key = {tag.id} value = {parseInt(tag.id)} selected = {true}>{tag.title}</option>
+                        return <option key = {tag.id} value = {parseInt(tag.id)} selected>{tag.title}</option>
                     }
                     else{
                         return <option key = {tag.id} value = {parseInt(tag.id)}>{tag.title}</option>

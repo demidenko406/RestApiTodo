@@ -1,5 +1,5 @@
 import React from 'react'
-import axios from 'axios'
+import axios from '../axios'
 import { Redirect,useParams} from 'react-router-dom'
 import { useState,useEffect,useRef } from 'react'
 import './delete-submit.css'
@@ -24,7 +24,7 @@ export function TaskDelete()
                 try
                 {
                 await axios.delete(`http://127.0.0.1:8000/api/task/${id}`)
-                setToRedirect(true)
+                    setToRedirect(true)
                 }
                 catch(error)
                 {
