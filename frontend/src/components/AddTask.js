@@ -1,8 +1,8 @@
 import React, { useEffect,useRef } from 'react'
 import axios from '../axios'
-import { Redirect} from 'react-router-dom'
+import { Redirect,Link} from 'react-router-dom'
 import { useState } from 'react'
-import './Form.css'
+import './styles/Forms.css'
 
 export function TaskCreate()
 {
@@ -15,7 +15,7 @@ export function TaskCreate()
         description: "",
         complete: false,
         due_date: null,
-        user: 1,
+        user: '',
         tag: []
 
     })
@@ -66,6 +66,8 @@ export function TaskCreate()
     }
     
     return(
+        <div className = "form">
+        <Link className = "GoBack" to = '/'>Go back</Link>
         <div className="formAdd">
             <div className="mb-3">
                 <label  className="form-label">TaskName</label>
@@ -79,13 +81,14 @@ export function TaskCreate()
                 <label className="form-label" placeholder="MM-DD-YY" >Date</label>
                 <input type="date" className="form-control" id="exampleFormControlInput1" onChange = {e=>{setPost({...post,due_date:e.target.value})}} />
             </div>
-
+            <label className="form-label" placeholder="MM-DD-YY" >Tags</label>
             <select className="form-select" multiple onChange = {(e) => {setPost({...post,tag:Array.from(e.target.selectedOptions,option => option.value)})}}>
                 {intial.map((tag)=>{
                     return <option key = {tag.id} value = {parseInt(tag.id)}>{tag.title}</option>
                 })}
             </select> 
-            <input type="submit" value="Submit" className="btn btn-primary btn-lg" onClick = {()=>(setToAdd(true))}/>
+            <input type="submit" value="Submit" style = {{margin:"2em"}}className="btn btn-success btn-lg" onClick = {()=>(setToAdd(true))}/>
+        </div>
         </div>
     )
 }

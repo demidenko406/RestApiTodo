@@ -1,8 +1,8 @@
 import React, { useEffect,useRef } from 'react'
 import axios from '../axios'
-import { Redirect} from 'react-router-dom'
+import { Redirect,Link} from 'react-router-dom'
 import { useState } from 'react'
-import './Form.css'
+import './styles/Forms.css'
 
 export function TagCreate()
 {
@@ -11,7 +11,7 @@ export function TagCreate()
     const [toRedirect,setToRedirect] = useState(false)
     const [post,setPost] = useState({
         title: "",
-        user: 1,
+        user: '',
     })
 
     useEffect(()=>{
@@ -44,12 +44,16 @@ export function TagCreate()
     }
     
     return(
+        <div className = "form">
+        <Link className = "GoBack" to = '/'>Go back</Link>
+
         <div className="formAdd">
             <div className="mb-3">
                 <label  className="form-label">Tag</label>
                 <input type="name" className="form-control" id="exampleFormControlInput1" onChange = {e=>{setPost({...post,title:e.target.value})}} />
             </div>
-            <input type="submit" value="Submit" className="btn btn-primary btn-lg" onClick = {()=>(setToAdd(true))}/>
+            <input type="submit" value="Submit" className="btn btn-success btn-lg" style = {{margin:"2em"}} onClick = {()=>(setToAdd(true))}/>
+      </div>
       </div>
     )
 }

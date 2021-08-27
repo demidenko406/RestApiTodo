@@ -1,10 +1,10 @@
 import React, { useEffect,useRef,useState } from 'react'
 import axios from '../axios'
-import { Redirect,useParams,useLocation} from 'react-router-dom'
+import { Redirect,useParams,Link} from 'react-router-dom'
 
 
 
-export function TaskUpdate(props)
+export function TaskUpdate()
 {
     const { id } = useParams()
     const [data,setData] = useState()
@@ -45,8 +45,8 @@ export function TaskUpdate(props)
           const request = await axios.get(`http://127.0.0.1:8000/api/task/${id}/`) 
           if(mounted){
             console.log(request)
-            await setData(request.data.task)
-            await setInitial(request.data.tags)
+            setData(request.data.task)
+            setInitial(request.data.tags)
 
           }
         }
@@ -63,7 +63,10 @@ export function TaskUpdate(props)
 
     if (intial){
      return(
-        <div className="formAdd">
+         <div className = "form">
+        
+            <Link className = "GoBack" to = '/'>Go back</Link>
+            <div className="formAdd">
             <div className="mb-3">
             <label  className="form-label">TaskName</label>
             <input type="name" className="form-control" id="exampleFormControlInput1" defaultValue = {data.title} onChange = {(e) => {setData({...data,title:e.target.value})}} ></input>
@@ -76,10 +79,13 @@ export function TaskUpdate(props)
             <label className="form-label" placeholder="MM-DD-YY" >Date</label>
             <input type="date" className="form-control" id="exampleFormControlInput1" defaultValue = {data.due_date} onChange = {(e) => {setData({...data,due_date:e.target.value})}}/>
             </div>
-            <select className="form-select" multiple onChange = {(e) => {setData({...data,tag:Array.from(e.target.selectedOptions,option => option.value)})}}>
+
+            <label className="form-label" placeholder="MM-DD-YY" >Tags</label>
+
+            <select className="form-select" multiple value = {data.tag}onChange = {(e) => {setData({...data,tag:Array.from(e.target.selectedOptions,option => option.value)})}}>
                 {intial.map((tag)=>{
                     if(data.tag.includes(tag.id)){
-                        return <option key = {tag.id} value = {parseInt(tag.id)} selected>{tag.title}</option>
+                        return <option key = {tag.id} value = {parseInt(tag.id)} >{tag.title}</option>
                     }
                     else{
                         return <option key = {tag.id} value = {parseInt(tag.id)}>{tag.title}</option>
@@ -87,8 +93,16 @@ export function TaskUpdate(props)
                 })}
                 
             </select>
-            <input type="submit" value="Submit" className="btn btn-primary btn-lg" onClick = {()=>(setToAdd(true))}/>
-
+            <div className="form-check">
+                <input className="form-check-input" type="checkbox" checked = {data.complete} id="defaultCheck1" onChange = {(e) => {setData({...data,complete:e.target.checked})
+                                                                                                                                                    console.log(e.target.checked)}} />
+                <label className="form-check-label">
+                    Complete
+                </label>
+            </div>
+            <input type="submit" value="Submit" style = {{margin:"2em"}} className="btn btn-success btn-lg"  onClick = {()=>(setToAdd(true))}/>
+                
+      </div>
       </div>
     )
             }

@@ -1,10 +1,11 @@
 import React, { useEffect,useState,useRef } from 'react'
 import NavBar from './NavBar'
-import './main.css';
+import './styles/List.css';
 import {
   Link,
   useLocation
 } from "react-router-dom";
+import HandleDayTask from './DayTask'
 import axios from '../axios'
 
 
@@ -14,7 +15,6 @@ export function List ()
     const [api_data,setData] = useState()
     const [completeTask,setComplete] = useState()
     const [toRerender,setRerender] = useState(false)
-
     
     const apiURL = 'http://localhost:8000/api/task'
 
@@ -71,13 +71,31 @@ export function List ()
   },[completeTask])
 
 
+  function Rerender(){
 
-      
+  }
+
+
+
+  
+
+
+    
     if (api_data) {
       return(
         <>
           <NavBar user = {api_data.user.username} />
           <div id = "main">
+          <div className = "DayTask" style = {{margin:"auto",width:"1000px"}}>
+            
+
+          < HandleDayTask tasks = {api_data.tasks} day_task = {api_data.day_task} onChange = {value => setRerender(value)}/>
+
+        
+            
+
+              </div>
+
             <div id = "List">
               <div id = "TagList">
                   {api_data.tags.map((tag)=>
@@ -89,27 +107,33 @@ export function List ()
                   )}
               </div>
               
-              {/* Tasks */}
+
+
+              
+              <div id = "menu">
               <div id = "TaskList">
                 {api_data.tasks.map((task)=>
                 {if(!task.complete){
-                  return(         
-                  <div className = "Task" style = {{ display:"flex" }}  key = {task.id} >
+                  return(        
+                    <div style = {{display:"inline"}} key = {task.id}> 
+                  <div className = "Task" style = {{ display:"flex" }} >
                   <Link to = {`/update-task/${task.id}`} className = "TextLink">
-                    <p style = {{margin:"10px",paddingRight:"90%"}} >{task.title}</p>
+                    <p style = {{margin:"10px"}} >{task.title}</p>
                   </Link>  
                   <div style={{padding:'1px'}}></div>  
                   <div className = "Buttons">
+                    <button  style = {{ margin:"10px"}} className="btn btn-outline-success" onClick = {e =>{setComplete({...task,complete:!task.complete})}} >Complete</button>
                     <Link to = {`/delete-task/${task.id}`}>
                       <button style = {{ margin:"10px"}} className="btn btn-outline-danger">Delete</button>
                     </Link>
-                    <button  style = {{ margin:"10px"}} className="btn btn-outline-success" onClick = {e=>{setComplete({...task,complete:true})}} >Complete</button>
                   </div>
-                  <li style = {{display:"inline"}}>
+                  </div>
+
+                  <div className = "TagBlock" >
                     {task.tag.map(tag => {
-                      return <ul key = {tag}>{api_data.tags.find(x => x.id === tag).title}</ul>
+                      return <div className = "TagTask" key = {tag} ><p style = {{fontSize:"0.7em"}} >{api_data.tags.find(x => x.id === tag).title}</p></div>
                     })}
-                    </li>
+                    </div>
                 </div>)
 
                 }
@@ -117,9 +141,11 @@ export function List ()
                   return(         
                     <div className = "Task" style = {{ display:"flex" }}  key = {task.id} >
                     <Link to = {`/update-task/${task.id}`} className = "TextLink">
-                      <p style = {{margin:"10px",paddingRight:"90%", textDecoration:"line-through",color:"grey"}} >{task.title}</p>
+                      <p style = {{margin:"10px", textDecoration:"line-through",color:"grey"}} >{task.title}</p>
                     </Link>   
                     <div className = "Buttons">
+                          <button  style = {{ margin:"10px"}} className="btn btn-outline-primary" onClick = {e =>{setComplete({...task,complete:!task.complete})}} >unComplete</button>
+
                       <Link to = {`/delete-task/${task.id}`}>
                         <button style = {{ margin:"10px"}} className="btn btn-outline-danger">Delete</button>
                       </Link>
@@ -133,6 +159,7 @@ export function List ()
 
                 )}
               </div>
+            </div>
             </div>
             <div className = "Add">
               <Link to = {"/create-tag/"}><button className="btn btn-outline-dark" style = {{width:"170px"}} >+ Add Tag</button></Link>

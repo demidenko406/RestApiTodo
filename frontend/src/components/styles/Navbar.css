@@ -1,0 +1,10 @@
+.Nav{
+    display: flex;
+    margin: auto;
+    margin-top: 3em;
+    padding: 30px;
+    text-align: right;
+    background-color: #3d3d3d;
+    width: 1000px;
+    border-radius:20px 20px 5px 5px;
+}

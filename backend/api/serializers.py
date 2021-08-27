@@ -1,5 +1,6 @@
-from rest_framework import serializers
-from api.models import Task,TaskTags,User
+from django.db import models
+from rest_framework import fields, serializers
+from api.models import Task,TaskTags,User,DayTask
 
 class TaskSerializer(serializers.ModelSerializer):
     
@@ -30,4 +31,13 @@ class UserSerializer(serializers.ModelSerializer):
         if password is not None:
             instance.set_password(password)
         instance.save()
+        DayTask.objects.create(user = instance)
         return instance
+    
+class DayTaskSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = DayTask
+        fields = ['task','id']
+        
+        

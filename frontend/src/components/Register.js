@@ -1,8 +1,8 @@
 import React, { useEffect,useRef } from 'react'
 import axios from '../axios'
-import { Redirect} from 'react-router-dom'
+import { Redirect,Link} from 'react-router-dom'
 import { useState } from 'react'
-import './Form.css'
+import './styles/Forms.css'
 
 export function Register()
 {
@@ -49,25 +49,29 @@ export function Register()
     }
     
     return(
-        <>
-        <h1 style = {{margin:"auto"}}>Register</h1>
+        <div className = "form">
+        <Link class = "GoBack" to = '/login'>Login</Link>
+        <div className = "formAdd">
+
+
+        <h1 style = {{margin:"1em auto " }}>Register</h1>
         <form>
-            <div className="mb-3" style = {{width:"800px",margin:"auto",marginTop:"20em"}}>
+            <div className="mb-3" >
                 <label className="form-label">Email address</label>
                 <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"  onChange = {e=>{setUser({...user,email:e.target.value})}} />
-                <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
             </div>
-            <div className="mb-3" style = {{width:"800px",margin:"auto"}}>
+            <div className="mb-3" >
                 <label className="form-label">Username</label>
                 <input className="form-control" type="text" onChange = {e=>{setUser({...user,username:e.target.value})}}/>
             </div>
-            <div className="mb-3" style = {{width:"800px",margin:"auto"}}>
+            <div className="mb-3" >
                 <label className="form-label">Password</label>
                 <input type="password" className="form-control" id="exampleInputPassword1" onChange = {e=>{setUser({...user,password:e.target.value})}} />
             </div>
-            <input type="submit" value="Submit" className="btn btn-primary btn-lg" onClick = {(e)=>{e.preventDefault
+            <input type="submit" value="Submit" className="btn btn-success btn-lg" style = {{margin:"1em"}}onClick = {(e)=>{e.preventDefault
                                                                                                 (setToAdd(true))}}/>
         </form> 
-        </>
+        </div>
+        </div>
     )
 }

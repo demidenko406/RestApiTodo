@@ -10,6 +10,7 @@ class User(AbstractUser):
     
     def __str__(self):
         return self.username
+    
 
 class TaskTags(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
@@ -33,5 +34,14 @@ class Task(models.Model):
 
     class Meta:
         ordering = ['complete']
+        
+        
+class DayTask(models.Model):
+    user = models.OneToOneField(User,on_delete=models.CASCADE,blank=True,null=True)
+    task = models.ForeignKey(Task,null=True,blank=True,on_delete=models.SET_NULL)
+    
+    def create_day(self, user):
+        task = self.create(user = user)
+        return task
 
     

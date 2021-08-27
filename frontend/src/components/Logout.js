@@ -7,7 +7,7 @@ export function Logout() {
 	const history = useHistory();
 
 	useEffect(() => {
-		const response = axiosInstance.post('http://127.0.0.1:8000/api/logout/', {
+		axiosInstance.post('http://127.0.0.1:8000/api/logout/', {
 			refresh_token: localStorage.getItem('refresh_token'),
 		});
 		localStorage.removeItem('access_token')

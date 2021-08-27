@@ -1,6 +1,6 @@
 from django.db import router
 from django.urls import path,include
-from .views import MainView, TagViewSet,Register,Logout
+from .views import MainView, TagViewSet,Register,Logout,CreateDayTask
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -11,5 +11,5 @@ urlpatterns = [
     path('', include(router.urls)),
     path('register/', Register.as_view()),
     path('logout/', Logout.as_view()),
-
+    path('day-task/<int:pk>/',CreateDayTask.as_view())
 ]

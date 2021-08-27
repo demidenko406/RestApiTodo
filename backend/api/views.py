@@ -1,10 +1,11 @@
 from django.db.models import query
 from rest_framework.response import Response
-from .serializers import TagSerializer, TaskSerializer,UserSerializer
+from .serializers import DayTaskSerializer, TagSerializer, TaskSerializer,UserSerializer
 from rest_framework.views import APIView
+from rest_framework.generics import UpdateAPIView
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import Task,TaskTags    
+from .models import DayTask, Task,TaskTags    
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -64,10 +65,13 @@ class MainView(UserCreateMixin,ModelViewSet):
         tags_serializer = TagSerializer(tags, many=True)
         user = self.request.user
         user_setializer = UserSerializer(user)
+        day_task = DayTask.objects.filter(user = self.request.user)
+        day_serializer = DayTaskSerializer(day_task,many = True)
         return Response({
             'tasks':task_serializer.data,
             'tags':tags_serializer.data,
             'user':user_setializer.data,
+            'day_task':day_serializer.data,
             }
         ) 
 
@@ -122,3 +126,11 @@ class Logout(APIView):
             return Response(status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+        
+        
+class CreateDayTask(UpdateAPIView):
+    
+    serializer_class = DayTaskSerializer
+    queryset = DayTask.objects.all()
+    permission_classes = [IsAuthenticated]
