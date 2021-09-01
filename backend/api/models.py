@@ -34,6 +34,7 @@ class Task(models.Model):
 
     class Meta:
         ordering = ['complete']
+        indexes = [models.Index(fields=['title',]),]
         
         
 class DayTask(models.Model):

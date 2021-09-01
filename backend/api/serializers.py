@@ -34,6 +34,8 @@ class UserSerializer(serializers.ModelSerializer):
         DayTask.objects.create(user = instance)
         return instance
     
+    
+    
 class DayTaskSerializer(serializers.ModelSerializer):
     
     class Meta:

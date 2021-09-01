@@ -69,7 +69,6 @@ export function TagList ()
                 <Link to = {`/delete-task/${task.id}`}>
                   <button style = {{ margin:"10px",float:"right"}} className="btn btn-outline-danger">Delete</button>
                   </Link>
-                <button style = {{ margin:"10px",float:"right"}} className="btn btn-outline-success">Complete</button>
               </div>
               </div>)
                 }
