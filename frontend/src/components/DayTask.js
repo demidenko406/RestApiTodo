@@ -11,7 +11,6 @@ export default function HandleDayTask(props) {
     } else {
       async function HandleAdd() {
         try {
-          console.log(data);
           await axios.put(
             `http://127.0.0.1:8000/api/day-task/${props.day_task[0].id}/`,
             data
@@ -23,7 +22,6 @@ export default function HandleDayTask(props) {
       HandleAdd();
     }
   }, [data]);
-  console.log("Props: ", props.day_task[0]);
   if (
     props.day_task[0] &&
     props.tasks.find((x) => x.id === props.day_task[0].task)
@@ -34,7 +32,6 @@ export default function HandleDayTask(props) {
           Task of the day:{" "}
           {props.tasks.find((x) => x.id === props.day_task[0].task).title}
         </p>
-        {console.log(props.day_task[0].task)}
         <select
           value
           className="form-select"
@@ -67,7 +64,6 @@ export default function HandleDayTask(props) {
     return (
       <div className="Task" style={{ display: "flex" }}>
         <p style={{ margin: "auto" }}>No taks of the day</p>
-        {console.log(props.day_task[0].task)}
         <select
           value
           className="form-select"

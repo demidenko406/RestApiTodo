@@ -49,16 +49,13 @@ export function Register() {
       email: handleEmail(userInstance),
       username: handleUsername(userInstance),
     });
-    console.log(userError);
     if (
       userError.email === "" &&
       userError.password === "" &&
       userError.username === ""
     ) {
-      console.log("Validation", true);
       return true;
     } else {
-      console.log("Validation", false);
       return false;
     }
   };
@@ -73,7 +70,6 @@ export function Register() {
             "http://127.0.0.1:8000/api/register/",
             user
           );
-          console.log(res);
           if (res.statusText == "Created") setToRedirect(true);
         } catch (error) {
           console.log(error);

@@ -32,13 +32,11 @@ export function TaskUpdate() {
     async function fetchList() {
       const request = await axios.get(`http://127.0.0.1:8000/api/task/${id}/`);
       if (mounted) {
-        console.log(request);
         setData(request.data.task);
         setInitial(request.data.tags);
       }
     }
     fetchList();
-    console.log(intial);
     return () => {
       mounted = false;
     };
@@ -136,7 +134,6 @@ export function TaskUpdate() {
               id="defaultCheck1"
               onChange={(e) => {
                 setData({ ...data, complete: e.target.checked });
-                console.log(e.target.checked);
               }}
             />
             <label className="form-check-label">Complete</label>

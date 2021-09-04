@@ -10,13 +10,11 @@ export function TagList() {
   const apiURL = `http://localhost:8000/api/tag/${id}`;
 
   useEffect(() => {
-    console.log(apiURL);
     let mounted = true;
     async function fetchList() {
       const request = await axios.get(apiURL);
       if (mounted) {
-        await setData(request.data);
-        console.log(api_data);
+        setData(request.data);
       }
     }
     fetchList();

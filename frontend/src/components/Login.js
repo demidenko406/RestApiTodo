@@ -19,7 +19,6 @@ export function Login() {
 
   const handlePassword = () => {
     if (loginData.password.length < 8) {
-      console.log("Password :", loginData.password);
       return "Password should be at least 8 symbols";
     } else {
       return "";
@@ -28,7 +27,6 @@ export function Login() {
 
   function handleEmail() {
     if (loginData.email.length < 5 || !loginData.email.includes("@")) {
-      console.log("Email ", loginData.email);
       return "Email should be at least 5 symbols and contain '@' sign";
     } else {
       return "";
@@ -37,9 +35,7 @@ export function Login() {
 
   const isValid = () => {
     setLoginError({ password: handlePassword(), email: handleEmail() });
-    console.log("Errors\n", loginError);
     if (loginError.email === "" && loginError.password === "") {
-      console.log("Validation", true);
       return true;
     } else {
       console.log("Validation", false);
@@ -51,9 +47,7 @@ export function Login() {
       firstUpdate.current = false;
     } else {
       async function HandleAdd() {
-        console.log("Request");
         try {
-          console.log(loginData);
           await axios
             .post("http://127.0.0.1:8000/token/", loginData)
             .then((res) => {
@@ -64,7 +58,6 @@ export function Login() {
             });
           setToRedirect(true);
         } catch (error) {
-          //setToRerender(true)
           console.log(error);
         }
       }

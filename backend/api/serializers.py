@@ -13,13 +13,18 @@ class TaskSerializer(serializers.ModelSerializer):
         model = Task
         exclude = ("user",)
 
-
+        
 class TagSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = TaskTags
         exclude = ("user",)
 
+class TaskListSerializer(serializers.ModelSerializer):
+    tag = TagSerializer(many=True)
+    class Meta:
+        model = Task
+        exclude = ("user",)
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True)

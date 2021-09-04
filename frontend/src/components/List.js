@@ -16,14 +16,12 @@ export function List() {
   let location = useLocation();
 
   useEffect(() => {
-    console.log(apiURL);
     let mounted = true;
 
     async function fetchList() {
       try {
         const request = await axios.get(apiURL);
         if (mounted) {
-          console.log("Response: ", request);
           setData(request.data);
         }
       } catch (error) {
@@ -43,7 +41,6 @@ export function List() {
     } else {
       async function HandleAdd() {
         try {
-          console.log(completeTask);
           await axios.put(
             `http://127.0.0.1:8000/api/task/${completeTask.id}/`,
             completeTask
@@ -123,12 +120,7 @@ export function List() {
                           {task.tag.map((tag) => {
                             return (
                               <div className="TagTask" key={tag}>
-                                <p style={{ fontSize: "0.7em" }}>
-                                  {
-                                    api_data.tags.find((x) => x.id === tag)
-                                      .title
-                                  }
-                                </p>
+                                <p style={{ fontSize: "0.7em" }}>{tag.title}</p>
                               </div>
                             );
                           })}

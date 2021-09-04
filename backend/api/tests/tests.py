@@ -92,21 +92,21 @@ class TestSerializers(APITestCase):
             data={"username": "Username", "email": "m@m", "password": "Password"}
         )
         serializer.is_valid()
-        self.assertEqual(serializer.errors.keys(), set(["email"]))
+        assert serializer.errors.keys() == set(["email"])
 
     def test_password_validation(self):
         serializer = UserSerializer(
             data={"username": "Username", "email": "m@m.com", "password": "Passw"}
         )
         serializer.is_valid()
-        self.assertEqual(serializer.errors.keys(), set(["password"]))
+        assert serializer.errors.keys() == set(["password"])
 
     def test_username_validation(self):
         serializer = UserSerializer(
             data={"username": "us", "email": "m@m.com", "password": "Password"}
         )
         serializer.is_valid()
-        self.assertEqual(serializer.errors.keys(), set(["username"]))
+        assert serializer.errors.keys() == set(["username"])
 
     def test_user_deserialization(self):
         email = ("email", "m@m.com")
@@ -116,15 +116,15 @@ class TestSerializers(APITestCase):
             data={"username": "Username", "email": "m@m.com", "password": "Password"}
         )
         serializer.is_valid()
-        self.assertEqual(list(serializer.validated_data.items())[0], email)
-        self.assertEqual(list(serializer.validated_data.items())[1], username)
-        self.assertEqual(list(serializer.validated_data.items())[2], password)
+        assert list(serializer.validated_data.items())[0] == email
+        assert list(serializer.validated_data.items())[1] == username
+        assert list(serializer.validated_data.items())[2] == password
 
     def test_user_serialization(self):
         user = User(email="m@m.com", username="TestUser", password="Password")
         serialized_data = {"email": "m@m.com", "username": "TestUser"}
         serializer = UserSerializer(user)
-        self.assertEqual(serializer.data, serialized_data)
+        assert serializer.data == serialized_data
 
     def test_task_serialization(self):
         user1 = User.objects.create(username="User1")
@@ -140,7 +140,7 @@ class TestSerializers(APITestCase):
             "tag": [],
         }
         serializer = TaskSerializer(task1)
-        self.assertEqual(serializer.data, serialized_data)
+        assert serializer.data == serialized_data
 
     def test_task_tag_deserialization(self):
         title = ("title", "Task1")
@@ -159,11 +159,11 @@ class TestSerializers(APITestCase):
             }
         )
         serializer.is_valid()
-        self.assertEqual(list(serializer.validated_data.items())[0], title)
-        self.assertEqual(list(serializer.validated_data.items())[1], description)
-        self.assertEqual(list(serializer.validated_data.items())[2], complete)
-        self.assertEqual(list(serializer.validated_data.items())[3], due_date)
-        self.assertEqual(list(serializer.validated_data.items())[4], tag)
+        assert list(serializer.validated_data.items())[0] ==  title
+        assert list(serializer.validated_data.items())[1] ==  description
+        assert list(serializer.validated_data.items())[2] == complete
+        assert list(serializer.validated_data.items())[3] == due_date
+        assert list(serializer.validated_data.items())[4] == tag
 
 
 class TestAPI(APITestCase):
@@ -251,7 +251,7 @@ class TestAPI(APITestCase):
             HTTP_AUTHORIZATION=f"Bearer {token}",
         )
         logger.error(json.loads(res.content))
-        self.assertEqual(res.status_code, 200)
+        assert res.status_code == 200
 
     def test_post_user_validation(self):
         res = self.client.post(
@@ -303,5 +303,5 @@ class TestAPI(APITestCase):
             HTTP_AUTHORIZATION=f"Bearer {token}",
         )
         logger.error(f"Tags : {json.loads(res.content)}")
-        self.assertEqual(res.status_code, 200)
-        self.assertEqual(json.loads(res.content)[0]["title"], "Tag1")
+        assert res.status_code ==  200
+        assert json.loads(res.content)[0]["title"] ==  "Tag1"

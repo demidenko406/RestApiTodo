@@ -12,6 +12,7 @@ from .serializers import (
     TagSerializer,
     TaskSerializer,
     UserSerializer,
+    TaskListSerializer
 )
 from django.conf import settings
 
@@ -63,7 +64,7 @@ class MainView(UserCreateMixin, ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         tasks = Task.objects.filter(user=self.request.user)
-        task_serializer = TaskSerializer(tasks, many=True)
+        task_serializer = TaskListSerializer(tasks, many=True)
         tags = TaskTags.objects.filter(user=self.request.user)
         tags_serializer = TagSerializer(tags, many=True)
         user = self.request.user
