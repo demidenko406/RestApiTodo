@@ -1,98 +1,85 @@
 * {
-    margin: 0px;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-
-#menu
-{
-    width: 1000px;
-    margin: auto;
-    align-items: center;
-
+  margin: 0px;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-#List
-{
-    background-color:rgba(246, 248, 249, 0.466);
-    width: 1000px;
-    margin: auto;
-    display: flex;
-    /* justify-content: center; */
-    align-items: stretch;
-
+#menu {
+  width: 1000px;
+  margin: auto;
+  align-items: center;
 }
 
-#TaskList
-{
-    align-items: flex-start;
-    box-sizing: border-box;
-    width: 880px;
-
-    
+#List {
+  background-color: rgba(246, 248, 249, 0.466);
+  width: 1000px;
+  margin: auto;
+  display: flex;
+  /* justify-content: center; */
+  align-items: stretch;
 }
 
-.TextLink{
-    text-decoration: none;
-    color: black;
-    width: 3em;
-    margin: 1em;
-        
+#TaskList {
+  align-items: flex-start;
+  box-sizing: border-box;
+  width: 880px;
 }
 
-.Buttons{
-    float: right;
-    display: flex;
-    align-items: center;
-    margin-left: 60%;
+.TextLink {
+  text-decoration: none;
+  color: black;
+  width: 3em;
+  margin: 1em;
 }
 
-.Tag{
-    padding: 0.5em;
-    font-size: 1.5em;
-    font-weight: 500;
-    cursor: pointer;
-
+.Buttons {
+  float: right;
+  display: flex;
+  align-items: center;
+  margin-left: 60%;
 }
 
-#TagList
-{
-    box-sizing: border-box;
-    /* margin-right: 50%; */
-    padding-left: 3em;
-    padding-right: 3em; ;
-    background-color: #f0f0f0;
-    width: 180px;
-    box-sizing: border-box;
+.Tag {
+  padding: 0.5em;
+  font-size: 1.5em;
+  font-weight: 500;
+  cursor: pointer;
 }
 
-.Task{
-    font-size: 1.3em;
-    text-align: left;
-    padding: 0.5em 1em 0.5em 1em;
-    display: block;
-    /* padding-left: 80%; */
-    border-bottom: 1px solid #7474743f;
-    /* border-top: solid; */
-    margin-right: 80px;
+#TagList {
+  box-sizing: border-box;
+  /* margin-right: 50%; */
+  padding-left: 3em;
+  padding-right: 3em;
+  background-color: #f0f0f0;
+  width: 180px;
+  box-sizing: border-box;
+}
+
+.Task {
+  font-size: 1.3em;
+  text-align: left;
+  padding: 0.5em 1em 0.5em 1em;
+  display: block;
+  /* padding-left: 80%; */
+  border-bottom: 1px solid #7474743f;
+  /* border-top: solid; */
+  margin-right: 80px;
 }
 
 .btn {
-    white-space: normal;
-    
+  white-space: normal;
 }
 
-.TagBlock{
-    display: flex;
-    width: 800px;
-    justify-content: center;
-    height: 1.6em;
-    border-bottom: solid 0.2px rgba(128, 128, 128, 0.158);
+.TagBlock {
+  display: flex;
+  width: 800px;
+  justify-content: center;
+  height: 1.6em;
+  border-bottom: solid 0.2px rgba(128, 128, 128, 0.158);
 }
-.TagTask{
-    border-bottom: solid 0.2px rgba(128, 128, 128, 0.158);
-    flex: 1;
-    font-size: 1.5em;
-
+.TagTask {
+  border-bottom: solid 0.2px rgba(128, 128, 128, 0.158);
+  flex: 1;
+  font-size: 1.5em;
 }

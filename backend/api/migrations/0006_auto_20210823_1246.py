@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0005_auto_20210823_1244'),
+        ("api", "0005_auto_20210823_1244"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='user',
-            name='user_name',
+            model_name="user",
+            name="user_name",
         ),
         migrations.AlterField(
-            model_name='user',
-            name='username',
+            model_name="user",
+            name="username",
             field=models.CharField(max_length=255),
         ),
     ]

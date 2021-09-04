@@ -7,8 +7,12 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import DayTask, Task, TaskTags
-from .serializers import (DayTaskSerializer, TagSerializer, TaskSerializer,
-                          UserSerializer)
+from .serializers import (
+    DayTaskSerializer,
+    TagSerializer,
+    TaskSerializer,
+    UserSerializer,
+)
 from django.conf import settings
 
 
@@ -16,24 +20,21 @@ logger = settings.LOGGER
 
 
 class UserCreateMixin(object):
-  user_field = 'user'
+    user_field = "user"
 
-  def get_user_field(self):
-    return self.user_field
- 
-  def perform_create(self, serializer):
-    kwargs = {
-      self.get_user_field(): self.request.user
-    }
-    serializer.save(**kwargs)
-    
+    def get_user_field(self):
+        return self.user_field
+
+    def perform_create(self, serializer):
+        kwargs = {self.get_user_field(): self.request.user}
+        serializer.save(**kwargs)
 
 
-class MainView(UserCreateMixin,ModelViewSet):
+class MainView(UserCreateMixin, ModelViewSet):
     queryset = Task.objects.all()
     permission_classes = [IsAuthenticated]
     serializer_class = TaskSerializer
-    
+
     def get_queryset(self):
         user = self.request.user
         return Task.objects.filter(user=user)
@@ -43,64 +44,72 @@ class MainView(UserCreateMixin,ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-    
-    
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer  = self.get_serializer(instance)
-        tags = TaskTags.objects.filter(user = self.request.user)
+        serializer = self.get_serializer(instance)
+        tags = TaskTags.objects.filter(user=self.request.user)
         tags_serializer = TagSerializer(tags, many=True)
-        return Response({
-            'tags':tags_serializer.data,
-            'task':serializer.data,
-            })
-    
+        logger.warning(tags_serializer.data)
+        return Response(
+            {
+                "tags": tags_serializer.data,
+                "task": serializer.data,
+            }
+        )
+
     def list(self, request, *args, **kwargs):
-        tasks = Task.objects.filter(user = self.request.user)
+        tasks = Task.objects.filter(user=self.request.user)
         task_serializer = TaskSerializer(tasks, many=True)
-        tags = TaskTags.objects.filter(user = self.request.user)
+        tags = TaskTags.objects.filter(user=self.request.user)
         tags_serializer = TagSerializer(tags, many=True)
         user = self.request.user
         user_setializer = UserSerializer(user)
-        day_task = DayTask.objects.filter(user = self.request.user)
-        day_serializer = DayTaskSerializer(day_task,many = True)
-        return Response({
-            'tasks':task_serializer.data,
-            'tags':tags_serializer.data,
-            'user':user_setializer.data,
-            'day_task':day_serializer.data,
+        day_task = DayTask.objects.filter(user=self.request.user)
+        day_serializer = DayTaskSerializer(day_task, many=True)
+        return Response(
+            {
+                "tasks": task_serializer.data,
+                "tags": tags_serializer.data,
+                "user": user_setializer.data,
+                "day_task": day_serializer.data,
             }
-        ) 
+        )
 
 
-class TagViewSet(UserCreateMixin,ModelViewSet):
-    
+class TagViewSet(UserCreateMixin, ModelViewSet):
+
     queryset = TaskTags.objects.all()
     permission_classes = [IsAuthenticated]
     serializer_class = TagSerializer
-    
+
     def get_queryset(self):
         user = self.request.user
-        return TaskTags.objects.filter(user = user)     
-    
+        return TaskTags.objects.filter(user=user)
+
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer  = self.get_serializer(instance)
-        tasks = Task.objects.filter(tag = instance,user = self.request.user)
-        task_serializer = TaskSerializer(tasks, many=True) 
+        serializer = self.get_serializer(instance)
+        tasks = Task.objects.filter(tag=instance, user=self.request.user)
+        task_serializer = TaskSerializer(tasks, many=True)
         user = self.request.user
-        user_setializer = UserSerializer(user)       
+        user_setializer = UserSerializer(user)
         logger.info("TagView was toggled")
-        return Response({
-            'tag':serializer.data,
-            'tasks':task_serializer.data,
-            'user':user_setializer.data,
-            })
-    
+        return Response(
+            {
+                "tag": serializer.data,
+                "tasks": task_serializer.data,
+                "user": user_setializer.data,
+            }
+        )
+
 
 class Register(APIView):
     permission_classes = [AllowAny]
+
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
@@ -110,8 +119,8 @@ class Register(APIView):
                 return Response(json, status=status.HTTP_201_CREATED)
         logger.warning("Unsuccesful registration attempt")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    
+
+
 class Logout(APIView):
     permission_classes = [AllowAny]
     authentication_classes = ()
@@ -126,11 +135,9 @@ class Logout(APIView):
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        
-        
-        
+
 class CreateDayTask(UpdateAPIView):
-    
+
     serializer_class = DayTaskSerializer
     queryset = DayTask.objects.all()
     permission_classes = [IsAuthenticated]

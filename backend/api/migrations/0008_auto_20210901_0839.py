@@ -7,17 +7,22 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0007_daytask'),
+        ("api", "0007_daytask"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='daytask',
-            name='task',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='api.task'),
+            model_name="daytask",
+            name="task",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="api.task",
+            ),
         ),
         migrations.AddIndex(
-            model_name='task',
-            index=models.Index(fields=['title'], name='api_task_title_3cbbff_idx'),
+            model_name="task",
+            index=models.Index(fields=["title"], name="api_task_title_3cbbff_idx"),
         ),
     ]
