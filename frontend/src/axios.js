@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 const axiosInstance = axios.create({
 	headers: {
@@ -20,9 +20,8 @@ axiosInstance.interceptors.response.use(
 
 		if (typeof error.response === 'undefined') {
 			alert(
-				'A server/network error occurred. ' +
-					'Looks like CORS might be the problem. ' +
-					'Sorry about this - we will get it fixed shortly.'
+				'A server/network error occurred. '
+
 			);
 			return Promise.reject(error);
 		}
@@ -61,7 +60,7 @@ axiosInstance.interceptors.response.use(
 							originalRequest.headers['Authorization'] =
 								'Bearer ' + response.data.access;
 
-								console.log(response)
+							console.log(response);
 
 							return axiosInstance(originalRequest);
 						})
@@ -84,4 +83,4 @@ axiosInstance.interceptors.response.use(
 );
 
 
-export default axiosInstance
+export default axiosInstance;

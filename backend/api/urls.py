@@ -9,7 +9,7 @@ router.register(r'tag', TagViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('register/', Register.as_view()),
-    path('logout/', Logout.as_view()),
-    path('day-task/<int:pk>/',CreateDayTask.as_view())
+    path('register/', Register.as_view(),name='register'),
+    path('logout/', Logout.as_view(),name='logout'),
+    path('day-task/<int:pk>/',CreateDayTask.as_view(),name='day-task')
 ]

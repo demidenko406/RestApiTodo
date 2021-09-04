@@ -22,6 +22,10 @@ venv.bak/
 # pyenv 
 .python-version
 
+backend/.coveragerc
+backend/appsetting.json
+backend/pytest.ini
+
 # Unit test / coverage reports 
 htmlcov/ 
 .tox/ 

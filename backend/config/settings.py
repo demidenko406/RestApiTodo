@@ -12,19 +12,69 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from datetime import timedelta
 from pathlib import Path
+import logging
+import json
+import environ
+env = environ.Env()
+environ.Env.read_env()
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'file_formatting': {
+            'format': '{levelname} {asctime} {module} {funcName} {message}',
+            'style': '{',
+    },
+        'console_formatting': {
+            'format': '{module} {funcName} {message}',
+            'style': '{',
+    },
+    },
+    'handlers': {
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': 'api.log',
+            'formatter': 'file_formatting'
+
+
+        },
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'console_formatting'
+        },
+    },
+    'loggers': {
+        'TEST': {
+            'handlers': ['file','console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'DEBUG': {
+            'handlers': ['file','console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'PRODUCTION': {
+            'handlers': ['file'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+    },
+}
+
+LOGGER = logging.getLogger(env('LOGGER'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-qswhwmr4o=w+m4mnr$)cpk7_4kremst+^ba@%w!a#pquu7ag+-'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(env('DEBUG'))
+LOGGER.warning(env('DEBUG'))
 
 ALLOWED_HOSTS = ['*']
 
@@ -131,9 +181,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'todolist',
-        'USER': 'kalacey412',
-        'PASSWORD': 'kalaceydb412',
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASS'),
         'HOST': 'localhost',
         'PORT': '5432',
 

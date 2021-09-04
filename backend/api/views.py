@@ -1,18 +1,18 @@
 from django.db.models import query
-from rest_framework.response import Response
-from .serializers import DayTaskSerializer, TagSerializer, TaskSerializer,UserSerializer
-from rest_framework.views import APIView
-from rest_framework.generics import UpdateAPIView
 from rest_framework import status
-from rest_framework_simplejwt.tokens import RefreshToken
-from .models import DayTask, Task,TaskTags    
+from rest_framework.generics import UpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-import logging
+from rest_framework_simplejwt.tokens import RefreshToken
+from .models import DayTask, Task, TaskTags
+from .serializers import (DayTaskSerializer, TagSerializer, TaskSerializer,
+                          UserSerializer)
+from django.conf import settings
 
-logger = logging.getLogger('user')
 
+logger = settings.LOGGER
 
 
 class UserCreateMixin(object):
@@ -25,13 +25,11 @@ class UserCreateMixin(object):
     kwargs = {
       self.get_user_field(): self.request.user
     }
-
     serializer.save(**kwargs)
+    
 
 
 class MainView(UserCreateMixin,ModelViewSet):
-    
-    
     queryset = Task.objects.all()
     permission_classes = [IsAuthenticated]
     serializer_class = TaskSerializer
@@ -93,7 +91,7 @@ class TagViewSet(UserCreateMixin,ModelViewSet):
         task_serializer = TaskSerializer(tasks, many=True) 
         user = self.request.user
         user_setializer = UserSerializer(user)       
-
+        logger.info("TagView was toggled")
         return Response({
             'tag':serializer.data,
             'tasks':task_serializer.data,
@@ -103,14 +101,14 @@ class TagViewSet(UserCreateMixin,ModelViewSet):
 
 class Register(APIView):
     permission_classes = [AllowAny]
-
     def post(self, request):
         serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             user = serializer.save()
             if user:
                 json = serializer.data
                 return Response(json, status=status.HTTP_201_CREATED)
+        logger.warning("Unsuccesful registration attempt")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     
@@ -123,9 +121,11 @@ class Logout(APIView):
             refresh_token = request.data["refresh_token"]
             token = RefreshToken(refresh_token)
             token.blacklist()
+            logger.info("User was logged out")
             return Response(status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
         
         
         

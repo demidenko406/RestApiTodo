@@ -1,121 +1,119 @@
-import React, { useEffect,useRef } from 'react'
-import axios from '../axios'
-import { Redirect,Link} from 'react-router-dom'
-import { useState } from 'react'
-import './styles/Forms.css'
+import React, { useEffect,useRef } from 'react';
+import axios from '../axios';
+import { Redirect,Link} from 'react-router-dom';
+import { useState } from 'react';
+import './styles/Forms.css';
 
 
 export function Login()
 {
-    const firstUpdate = useRef(true);
-    const [toRerender,setToRerender] = useState(false)
-    const [toAdd,setToAdd] = useState(false)
-    const [toRedirect,setToRedirect] = useState(false)
-    const [loginData,setLoginData] = useState({
-        email: "",
-        password: ""
-    })
-    const [loginError,setLoginError] = useState({
-        email: " ",
-        password: " ",
-    })
+	const firstUpdate = useRef(true);
+	const [toAdd,setToAdd] = useState(false);
+	const [toRedirect,setToRedirect] = useState(false);
+	const [loginData,setLoginData] = useState({
+		email: '',
+		password: ''
+	});
+	const [loginError,setLoginError] = useState({
+		email: ' ',
+		password: ' ',
+	});
 
 
-    const handlePassword = () => {
-        if(loginData.password.length < 8){
-            console.log("Password :",loginData.password)
-            return "Password should be at least 8 symbols"
-        }
-        else{
-            return ""
-        }
-    }
+	const handlePassword = () => {
+		if(loginData.password.length < 8){
+			console.log('Password :',loginData.password);
+			return 'Password should be at least 8 symbols';
+		}
+		else{
+			return '';
+		}
+	};
     
-    function handleEmail(){
-        if(loginData.email.length < 5 || !loginData.email.includes('@')){
-            console.log("Email ",loginData.email)
-            return "Email should be at least 5 symbols and contain '@' sign"
-        }
-        else{
-            return ""
-        }
-    }
+	function handleEmail(){
+		if(loginData.email.length < 5 || !loginData.email.includes('@')){
+			console.log('Email ',loginData.email);
+			return 'Email should be at least 5 symbols and contain \'@\' sign';
+		}
+		else{
+			return '';
+		}
+	}
 
 
-    const isValid = () => {
-        setLoginError({password:handlePassword(),email:handleEmail()})
-        console.log("Errors\n",loginError)
-        if(loginError.email === "" && loginError.password === "")
-        {
-            console.log("Validation",true)
-            return true
-        }
-        else{
-            console.log("Validation",false)
-            return false
-        }
+	const isValid = () => {
+		setLoginError({password:handlePassword(),email:handleEmail()});
+		console.log('Errors\n',loginError);
+		if(loginError.email === '' && loginError.password === '')
+		{
+			console.log('Validation',true);
+			return true;
+		}
+		else{
+			console.log('Validation',false);
+			return false;
+		}
 
-    }
-    useEffect(()=>{
-        if(firstUpdate.current)
-        {
-            firstUpdate.current=false
-        }
-        else{
-            async function HandleAdd()
-            {
-                console.log("Request")
-                try
-                {
-                    console.log(loginData)
-                    await axios.post(`http://127.0.0.1:8000/token/`,loginData).then((res) => {
-                        localStorage.setItem('access_token', res.data.access)
-                        localStorage.setItem('refresh_token', res.data.refresh)
-                        axios.defaults.headers['Authorization'] = 'Bearer ' + localStorage.getItem('access_token');
+	};
+	useEffect(()=>{
+		if(firstUpdate.current)
+		{
+			firstUpdate.current=false;
+		}
+		else{
+			async function HandleAdd()
+			{
+				console.log('Request');
+				try
+				{
+					console.log(loginData);
+					await axios.post('http://127.0.0.1:8000/token/',loginData).then((res) => {
+						localStorage.setItem('access_token', res.data.access);
+						localStorage.setItem('refresh_token', res.data.refresh);
+						axios.defaults.headers['Authorization'] = 'Bearer ' + localStorage.getItem('access_token');
 
-                    })
-                    setToRedirect(true)
+					});
+					setToRedirect(true);
 
-                }
-                catch(error)
-                {
-                    //setToRerender(true)   
-                    console.log(error);
-                }
+				}
+				catch(error)
+				{
+					//setToRerender(true)   
+					console.log(error);
+				}
                 
-            }
+			}
 
-            if(isValid()){
-                HandleAdd()
-            }
+			if(isValid()){
+				HandleAdd();
+			}
 
-        }
-    },[toAdd])
+		}
+	},[toAdd]);
 
-    if(toRedirect === true){
-        return <Redirect to = "/" />
-    }
-    return(
-        <div className = "form">
-        <Link className = "GoBack" to = '/register'>Register</Link>
-        <div className = "formAdd">
+	if(toRedirect === true){
+		return <Redirect to = "/" />;
+	}
+	return(
+		<div className = "form">
+			<Link className = "GoBack" to = '/register'>Register</Link>
+			<div className = "formAdd">
 
-        <h1 style = {{margin:"1em auto"}}>Login</h1>
-        <form>
-            <div className="mb-3" >
-                <label className="form-label">Email address</label>
-                <input type="email" className="form-control" id="exampleInputEmail1"  onChange = {e=>{setLoginData({...loginData,email:e.target.value})}}/>
-            </div>
-            <div className="error" style = {{color:"red",fontWeight:"350",fontSize:"0.8em"}}> {loginError.email}</div>
-            <div className="mb-3" >
-                <label className="form-label">Password</label>
-                <input type="password" className="form-control" id="exampleInputPassword1" onChange = {e=>{setLoginData({...loginData,password:e.target.value})}}/>
-            </div>
-            <div className="error" style = {{color:"red",fontWeight:"350",fontSize:"0.8em"}}> {loginError.password}</div>    
-            <button type="submit" style ={{margin:"2em",fontSize:"0.8em"}} className="btn btn-success" onClick = {(e)=>{e.preventDefault
-                                                                                    (setToAdd(!toAdd))}} >Login</button>
-        </form> 
-        </div>
-        </div>
-    )
+				<h1 style = {{margin:'1em auto'}}>Login</h1>
+				<form>
+					<div className="mb-3" >
+						<label className="form-label">Email address</label>
+						<input type="email" className="form-control" id="exampleInputEmail1"  onChange = {e=>{setLoginData({...loginData,email:e.target.value});}}/>
+					</div>
+					<div className="error" style = {{color:'red',fontWeight:'350',fontSize:'0.8em'}}> {loginError.email}</div>
+					<div className="mb-3" >
+						<label className="form-label">Password</label>
+						<input type="password" className="form-control" id="exampleInputPassword1" onChange = {e=>{setLoginData({...loginData,password:e.target.value});}}/>
+					</div>
+					<div className="error" style = {{color:'red',fontWeight:'350',fontSize:'0.8em'}}> {loginError.password}</div>    
+					<button type="submit" style ={{margin:'2em',fontSize:'0.8em'}} className="btn btn-success" onClick = {(e)=>{e.preventDefault(setToAdd(!toAdd));}} >Login</button>
+				</form> 
+			</div>
+		</div>
+	);
 }

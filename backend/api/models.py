@@ -20,6 +20,8 @@ class TaskTags(models.Model):
         return self.title
     class Meta:
         ordering = ['title']
+        
+        
     
 class Task(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
