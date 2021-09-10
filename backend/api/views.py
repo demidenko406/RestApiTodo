@@ -78,7 +78,7 @@ class MainView(UserCreateMixin, ModelViewSet):
         user_setializer = UserSerializer(user)
         day_task = DayTask.objects.filter(user=self.request.user)
         day_serializer = DayTaskSerializer(day_task, many=True)
-        logger.debig("MainView was requested")
+        logger.debug("MainView was requested")
         return Response(
             {
                 "tasks": task_serializer.data,
