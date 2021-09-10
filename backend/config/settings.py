@@ -140,7 +140,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = ("http://localhost:3000",)
 
 ROOT_URLCONF = "config.urls"
@@ -163,6 +163,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
+DEFAULT_FROM_EMAIL = 'djangoemailsend1@gmail.com'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'djangoemailsend1@gmail.com'
+EMAIL_HOST_PASSWORD = 'Kalacey412**'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases

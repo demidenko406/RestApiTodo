@@ -1,3 +1,4 @@
+from re import sub
 from django.db.models import query
 from rest_framework import status
 from rest_framework.generics import UpdateAPIView
@@ -5,6 +6,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
+from django.core.mail import message, send_mail
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import DayTask, Task, TaskTags
 from .serializers import (
@@ -14,11 +16,17 @@ from .serializers import (
     UserSerializer,
     TaskListSerializer
 )
+import asyncio
 from django.conf import settings
-
+from asgiref.sync import sync_to_async
 
 logger = settings.LOGGER
 
+async def async_email(name,email):
+    subject = 'User was created'
+    message = f'Hello {name}, your registration is complete.'
+    send = sync_to_async(send_mail)
+    await send(subject,message,settings.DEFAULT_FROM_EMAIL,[email])
 
 class UserCreateMixin(object):
     user_field = "user"
@@ -117,6 +125,8 @@ class Register(APIView):
             user = serializer.save()
             if user:
                 json = serializer.data
+                logger.warning(f" USer{user.__dict__}")
+                asyncio.run(async_email(user.username,user.email))
                 return Response(json, status=status.HTTP_201_CREATED)
         logger.warning("Unsuccesful registration attempt")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

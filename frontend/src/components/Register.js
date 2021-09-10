@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import axios from "../axios";
+import axios from "axios";
 import { Redirect, Link } from "react-router-dom";
 import { useState } from "react";
 import "./styles/Forms.css";
