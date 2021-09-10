@@ -97,8 +97,12 @@ export function List() {
                               style={{ margin: "10px" }}
                               className="btn btn-outline-success"
                               onClick={() => {
+                                let tags = task.tag.map((tag) => {
+                                  return tag.id;
+                                });
                                 setComplete({
                                   ...task,
+                                  tag: tags,
                                   complete: !task.complete,
                                 });
                               }}
@@ -119,7 +123,7 @@ export function List() {
                         <div className="TagBlock">
                           {task.tag.map((tag) => {
                             return (
-                              <div className="TagTask" key={tag}>
+                              <div className="TagTask" key={tag.id}>
                                 <p style={{ fontSize: "0.7em" }}>{tag.title}</p>
                               </div>
                             );
@@ -153,8 +157,12 @@ export function List() {
                             style={{ margin: "10px" }}
                             className="btn btn-outline-primary"
                             onClick={() => {
+                              let _tags = task.tag.map((tag) => {
+                                return tag.id;
+                              });
                               setComplete({
                                 ...task,
+                                tag: _tags,
                                 complete: !task.complete,
                               });
                             }}
