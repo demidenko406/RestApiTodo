@@ -18,7 +18,7 @@ axiosInstance.interceptors.response.use(
     const originalRequest = error.config;
 
     if (typeof error.response === "undefined") {
-      alert("A server/network error occurred. ");
+      alert("A server/network error occurred.");
       return Promise.reject(error);
     }
 

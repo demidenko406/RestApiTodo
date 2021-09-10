@@ -6,7 +6,6 @@ from django.conf import settings
 
 logger = settings.LOGGER
 
-
 class TaskSerializer(serializers.ModelSerializer):
     
     class Meta:

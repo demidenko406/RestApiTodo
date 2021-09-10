@@ -38,7 +38,6 @@ export function Login() {
     if (loginError.email === "" && loginError.password === "") {
       return true;
     } else {
-      console.log("Validation", false);
       return false;
     }
   };

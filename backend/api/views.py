@@ -62,7 +62,6 @@ class MainView(UserCreateMixin, ModelViewSet):
         serializer = self.get_serializer(instance)
         tags = TaskTags.objects.filter(user=self.request.user)
         tags_serializer = TagSerializer(tags, many=True)
-        logger.warning(tags_serializer.data)
         return Response(
             {
                 "tags": tags_serializer.data,
@@ -79,6 +78,7 @@ class MainView(UserCreateMixin, ModelViewSet):
         user_setializer = UserSerializer(user)
         day_task = DayTask.objects.filter(user=self.request.user)
         day_serializer = DayTaskSerializer(day_task, many=True)
+        logger.debig("MainView was requested")
         return Response(
             {
                 "tasks": task_serializer.data,
@@ -125,7 +125,6 @@ class Register(APIView):
             user = serializer.save()
             if user:
                 json = serializer.data
-                logger.warning(f" USer{user.__dict__}")
                 asyncio.run(async_email(user.username,user.email))
                 return Response(json, status=status.HTTP_201_CREATED)
         logger.warning("Unsuccesful registration attempt")
