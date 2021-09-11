@@ -14,7 +14,8 @@ class User(AbstractUser):
 
 
 class TaskTags(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=200)
 
     def __str__(self):
@@ -25,7 +26,8 @@ class TaskTags(models.Model):
 
 
 class Task(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
     complete = models.BooleanField(default=False)
@@ -47,8 +49,10 @@ class Task(models.Model):
 
 
 class DayTask(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
-    task = models.ForeignKey(Task, null=True, blank=True, on_delete=models.SET_NULL)
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, blank=True, null=True)
+    task = models.ForeignKey(
+        Task, null=True, blank=True, on_delete=models.SET_NULL)
 
     def create_day(self, user):
         task = self.create(user=user)
