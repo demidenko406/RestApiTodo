@@ -77,7 +77,8 @@ LOGGER.warning(env("DEBUG"))
 
 ALLOWED_HOSTS = ["*"]
 
-
+STATIC_URL = '/django_static/' 
+STATIC_ROOT = BASE_DIR / 'django_static'
 # Application definition
 
 INSTALLED_APPS = [
