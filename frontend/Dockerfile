@@ -1,11 +1,11 @@
 FROM node:13.12.0-alpine as build
 
-WORKDIR /app/frontend
-COPY ./frontend/package.json ./package.json
-COPY ./frontend/package-lock.json ./package-lock.json
+WORKDIR /app/frontend/
+COPY ./frontend/package.json /app/frontend/package.json
+COPY ./frontend/package-lock.json /app/frontend/package-lock.json
 RUN npm install --silent
 
-COPY . .
+COPY ./frontend/ /app/frontend/
 RUN npm run build
 
 # The second stage

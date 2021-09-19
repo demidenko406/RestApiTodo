@@ -5,4 +5,5 @@ COPY ./backend/requirements.txt requirements.txt
 RUN pip install --upgrade pip
 RUN pip install gunicorn
 RUN pip3 install -r requirements.txt
-COPY . .
+
+COPY ./backend/ /app/backend/
