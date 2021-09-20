@@ -1,4 +1,5 @@
 from re import sub
+import threading
 from django.db.models import query
 from rest_framework import status
 from rest_framework.generics import UpdateAPIView
@@ -22,11 +23,10 @@ from asgiref.sync import sync_to_async
 
 logger = settings.LOGGER
 
-async def async_email(name,email):
+def async_email(name,email):
     subject = 'User was created'
     message = f'Hello {name}, your registration is complete.'
-    send = sync_to_async(send_mail)
-    await send(subject,message,settings.DEFAULT_FROM_EMAIL,[email])
+    return send_mail(subject,message,settings.DEFAULT_FROM_EMAIL,[email])
 
 class UserCreateMixin(object):
     user_field = "user"
@@ -125,7 +125,8 @@ class Register(APIView):
             user = serializer.save()
             if user:
                 json = serializer.data
-                asyncio.run(async_email(user.username,user.email))
+                mail_task = threading.Thread(target=async_email,args=(user.username,user.email),daemon=True)
+                mail_task.start()
                 return Response(json, status=status.HTTP_201_CREATED)
         logger.warning("Unsuccesful registration attempt")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

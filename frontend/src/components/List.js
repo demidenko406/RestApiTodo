@@ -10,9 +10,11 @@ export function List() {
   const [api_data, setData] = useState();
   const [completeTask, setComplete] = useState();
   const [toRerender, setRerender] = useState(false);
+  const [toRedirect, setToRedirect] = useState(false);
 
   const apiURL = "http://0.0.0.0/api/task";
   
+
 
   let location = useLocation();
 
@@ -47,13 +49,23 @@ export function List() {
             completeTask
           );
         } catch (error) {
-          console.log(error);
+          if (error.response.status == 401) {
+            
+            setToRedirect(true)
+          }
+          else{
+            console.log(error);
+          }
         }
       }
       HandleAdd();
       setRerender(true);
     }
   }, [completeTask]);
+
+  if (toRedirect === true) {
+    return <Redirect to="/login" />;
+  }
 
   if (api_data) {
     return (
