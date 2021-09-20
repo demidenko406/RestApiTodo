@@ -75,7 +75,7 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = bool(env("DEBUG"))
 LOGGER.warning(env("DEBUG"))
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['0.0.0.0']
 
 STATIC_URL = '/django_static/' 
 STATIC_ROOT = BASE_DIR / 'django_static'
@@ -143,7 +143,9 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
-    "http://localhost:3000"
+    "http://localhost:3000",
+    '0.0.0.0'
+
 ]
 
 
@@ -180,15 +182,12 @@ EMAIL_USE_TLS = True
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": env("DATABASE_NAME"),
-        "USER": env("DATABASE_USER"),
-        "PASSWORD": env("DATABASE_PASS"),
-        "HOST": "localhost",
-        "PORT": "5432",
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 
 # Password validation

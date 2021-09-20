@@ -11,7 +11,7 @@ export function List() {
   const [completeTask, setComplete] = useState();
   const [toRerender, setRerender] = useState(false);
 
-  const apiURL = "http://localhost:8000/api/task";
+  const apiURL = "http://0.0.0.0/api/task";
 
   let location = useLocation();
 
@@ -42,7 +42,7 @@ export function List() {
       async function HandleAdd() {
         try {
           await axios.put(
-            `http://127.0.0.1:8000/api/task/${completeTask.id}/`,
+            `http://0.0.0.0/api/task/${completeTask.id}/`,
             completeTask
           );
         } catch (error) {
