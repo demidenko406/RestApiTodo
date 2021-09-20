@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  frontend:
+    restart: unless-stopped
+    build:
+        context: .
+        dockerfile: ./frontend/Dockerfile
+    ports:
+        - 80:80
+    volumes:
+        - ./frontend/nginx:/etc/nginx/conf.d
+    depends_on: 
+        - backend
+  backend:
+    restart: unless-stopped
+    build:
+      context: ./backend
+    command: gunicorn config.wsgi --bind 0.0.0.0:8000
+    expose:
+      - 8000

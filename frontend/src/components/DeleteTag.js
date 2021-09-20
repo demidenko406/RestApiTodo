@@ -16,7 +16,7 @@ export function TagDelete() {
     } else {
       async function HandleDelete() {
         try {
-          await axios.delete(`http://127.0.0.1:8000/api/tag/${id}`);
+          await axios.delete(`http://0.0.0.0/api/tag/${id}`);
           setToRedirect(true);
         } catch (error) {
           console.log(error);

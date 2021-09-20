@@ -12,7 +12,7 @@ export default function HandleDayTask(props) {
       async function HandleAdd() {
         try {
           await axios.put(
-            `http://127.0.0.1:8000/api/day-task/${props.day_task[0].id}/`,
+            `http://0.0.0.0/api/day-task/${props.day_task[0].id}/`,
             data
           );
         } catch (error) {

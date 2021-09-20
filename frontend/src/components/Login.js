@@ -49,7 +49,7 @@ export function Login() {
         try {
           console.log(loginData)
           await axios
-            .post("http://0.0.0.0/token/", loginData)
+            .post("http://0.0.0.0/api/token/", loginData)
             .then((res) => {
               localStorage.setItem("access_token", res.data.access);
               localStorage.setItem("refresh_token", res.data.refresh);

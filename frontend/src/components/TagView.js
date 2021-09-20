@@ -7,7 +7,7 @@ import NavBar from "./NavBar";
 export function TagList() {
   const [api_data, setData] = useState();
   let { id } = useParams();
-  const apiURL = `http://localhost:8000/api/tag/${id}`;
+  const apiURL = `http://0.0.0.0/api/tag/${id}`;
 
   useEffect(() => {
     let mounted = true;
