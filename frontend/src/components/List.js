@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import NavBar from "./NavBar";
 import "./styles/List.css";
-import { Link, useLocation,Redirect } from "react-router-dom";
+import { Link, useLocation, Redirect } from "react-router-dom";
 import HandleDayTask from "./DayTask";
 import axios from "../axios";
 
@@ -13,8 +13,6 @@ export function List() {
   const [toRedirect, setToRedirect] = useState(false);
 
   const apiURL = "http://0.0.0.0/api/task";
-  
-
 
   let location = useLocation();
 
@@ -29,8 +27,11 @@ export function List() {
         }
       } catch (error) {
         console.log(error.response);
-        if(error.response.status == 401 && error.response.headers.Authorization == null){
-          setToRedirect(true)
+        if (
+          error.response.status == 401 &&
+          error.response.headers.Authorization == null
+        ) {
+          setToRedirect(true);
         }
       }
     }
@@ -53,10 +54,8 @@ export function List() {
           );
         } catch (error) {
           if (error.response.status == 401) {
-            
-            setToRedirect(true)
-          }
-          else{
+            setToRedirect(true);
+          } else {
             console.log(error);
           }
         }
@@ -87,13 +86,21 @@ export function List() {
             <div id="TagList">
               {api_data.tags.map((tag) => (
                 <Link to={`/tag/${tag.id}`} className="TextLink" key={tag.id}>
-                  <div className="Tag" style={{ display: "flex" }}>
+                  <div className="Tag" style={{ display: "flex",marginLeft:"0px" }}>
                     <p>{tag.title}</p>
                   </div>
                 </Link>
               ))}
-            </div>
 
+              <Link to={"/create-tag/"}>
+                <button
+                  className="btn btn-outline-dark" style={{width:"130px",padding:"1px"}}
+                  >
+                  + Add Tag
+                </button>
+              </Link>
+            </div>
+            <div style = {{padding:"1px"}}></div>
             <div id="menu">
               <div id="TaskList">
                 {api_data.tasks.map((task) => {
@@ -200,26 +207,21 @@ export function List() {
                     );
                   }
                 })}
+                <Link to={"/create-task/"}>
+                  <button
+                    className="btn btn-outline-dark"
+                    style={{ width: "800px",padding:"1px" }}
+                  >
+                    + Add Task
+                  </button>
+                </Link>
               </div>
+
+              <div
+                className="Add"
+                style={{ margin: "auto", display: "flex" }}
+              ></div>
             </div>
-          </div>
-          <div className="Add">
-            <Link to={"/create-tag/"}>
-              <button
-                className="btn btn-outline-dark"
-                style={{ width: "170px" }}
-              >
-                + Add Tag
-              </button>
-            </Link>
-            <Link to={"/create-task/"}>
-              <button
-                className="btn btn-outline-dark"
-                style={{ width: "830px" }}
-              >
-                + Add Task
-              </button>
-            </Link>
           </div>
         </div>
       </>

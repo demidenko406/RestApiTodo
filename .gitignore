@@ -10,8 +10,7 @@ workspace.code-workspace
 
 # Environments 
 
-**/TodoEnv/
-.env 
+**/TodoEnv/ 
 .venv 
 env/ 
 venv/ 

@@ -14,10 +14,10 @@ from datetime import timedelta
 from pathlib import Path
 import logging
 import json
+import os
 import environ
 
-env = environ.Env()
-environ.Env.read_env()
+DJANGO_ENV = os.environ.get("DJANGO_ENV")
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -65,20 +65,43 @@ LOGGING = {
         },
     },
 }
+if DJANGO_ENV == 'production':
 
-LOGGER = logging.getLogger(env("LOGGER"))
+    LOGGER = logging.getLogger(os.environ.get("LOGGER"))
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+    SECRET_KEY = os.environ.get("SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-LOGGER.warning(env("DEBUG"))
+    try:
+        DEBUG = int(os.environ.get("DEBUG", default=0))
+    except:
+        DEBUG = False
 
-ALLOWED_HOSTS = ['0.0.0.0']
+    try:
+        ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+    except:
+        ALLOWED_HOSTS = ['127.0.0.1:3000', '0.0.0.0', 'localhost']
+    DATABASES = {
+        "default": {
+            "ENGINE": os.environ.get("DB_ENGINE"),
+            "NAME": os.environ.get("DB_DATABASE"),
+            "USER": os.environ.get("DB_USER"),
+            "PASSWORD": os.environ.get("DB_PASSWORD"),
+            "HOST": os.environ.get("DB_HOST"),
+            "PORT": os.environ.get("DB_PORT"),
+        }
+    }
+else:
+    LOGGER = logging.getLogger("DEBUG")
+    SECRET_KEY = 'localsecret'
+    DEBUG = True
+    ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'localhost']
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
-STATIC_URL = '/django_static/' 
-STATIC_ROOT = BASE_DIR / 'django_static'
 # Application definition
 
 INSTALLED_APPS = [
@@ -143,7 +166,6 @@ MIDDLEWARE = [
 CORS_ORIGIN_ALLOW_ALL = True
 
 
-
 ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
@@ -172,18 +194,6 @@ EMAIL_HOST_USER = 'djangoemailsend1@gmail.com'
 EMAIL_HOST_PASSWORD = 'Kalacey412**'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
