@@ -8,10 +8,8 @@ services:
     env_file:
       - .env
   frontend:
+    image: kalacey412/todolist_frontend:latest  # for DockerHub registry
     restart: unless-stopped
-    build:
-        context: .
-        dockerfile: ./frontend/Dockerfile
     ports:
         - 80:80
     volumes:
@@ -19,6 +17,7 @@ services:
     depends_on: 
         - backend
   backend:
+    image: kalacey412/todolist_backend:latest  # for DockerHub registry
     restart: unless-stopped
     env_file:
       - ./backend/.env
