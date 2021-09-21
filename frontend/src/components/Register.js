@@ -8,51 +8,54 @@ export function Register() {
   const firstUpdate = useRef(true);
   const [toAdd, setToAdd] = useState(false);
   const [toRedirect, setToRedirect] = useState(false);
-  const [userError, setUserError] = useState({
-    username: " ",
-    password: " ",
-    email: " ",
-  });
+  const [passwordError, setPasswordError] = useState(" ");
+  const [emailError, setEmailError] = useState(" ");
+  const [usernameError, setUsernameError] = useState(" ");
+
   const [user, setUser] = useState({
     username: " ",
     password: " ",
     email: " ",
   });
 
-  const handlePassword = (userInstance) => {
-    if (userInstance.password.length < 8) {
-      return "Password should be at least 8 symbols";
+
+  
+ function handlePassword(){
+    if (user.password.length < 8) {
+      setPasswordError("Password should be at least 8 symbols");
+      return false
     } else {
-      return "";
+      return true
     }
   };
 
-  const handleEmail = (userInstance) => {
-    if (userInstance.email.length < 5 || !user.email.includes("@")) {
-      return "Email should be at least 5 symbols and contain '@' sign";
+  function handleEmail(){
+    if (user.email.length < 5 || !user.email.includes("@")) {
+      setEmailError("Email should be at least 5 symbols and contain '@' sign");
+      return false
     } else {
-      return "";
+      return true
     }
   };
 
-  const handleUsername = (userInstance) => {
-    if (userInstance.username.length < 5) {
-      return "Username should be at least 5 symbols";
+  function handleUsername(){
+    if (user.username.length < 5) {
+      setUsernameError("Username should be at least 5 symbols");
+      return false
     } else {
-      return "";
+      return true
     }
   };
 
-  const isValid = (userInstance) => {
-    setUserError({
-      password: handlePassword(userInstance),
-      email: handleEmail(userInstance),
-      username: handleUsername(userInstance),
-    });
+  function isValid(){
+    let validPass = handlePassword()
+    let validName = handleUsername()
+    let validMail = handleEmail()
+
     if (
-      userError.email === "" &&
-      userError.password === "" &&
-      userError.username === ""
+      validName === true &&
+      validPass === true &&
+      validMail === true
     ) {
       return true;
     } else {
@@ -75,8 +78,7 @@ export function Register() {
           console.log(error);
         }
       }
-
-      if (isValid(user)) {
+      if (isValid()) {
         HandleAdd();
       }
     }
@@ -111,7 +113,7 @@ export function Register() {
             style={{ color: "red", fontWeight: "350", fontSize: "0.8em" }}
           >
             {" "}
-            {userError.email}
+            {emailError}
           </div>
           <div className="mb-3">
             <label className="form-label">Username</label>
@@ -128,7 +130,7 @@ export function Register() {
             style={{ color: "red", fontWeight: "350", fontSize: "0.8em" }}
           >
             {" "}
-            {userError.username}
+            {usernameError}
           </div>
           <div className="mb-3">
             <label className="form-label">Password</label>
@@ -145,7 +147,7 @@ export function Register() {
             style={{ color: "red", fontWeight: "350", fontSize: "0.8em" }}
           >
             {" "}
-            {userError.password}
+            {passwordError}
           </div>
           <input
             type="submit"

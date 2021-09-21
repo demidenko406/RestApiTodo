@@ -12,35 +12,41 @@ export function Login() {
     email: "",
     password: "",
   });
-  const [loginError, setLoginError] = useState({
-    email: " ",
-    password: " ",
-  });
+  const [passwordError, setPasswordError] = useState(" ");
+  const [emailError, setEmailError] = useState(" ");
 
-  const handlePassword = () => {
+  function handlePassword(){
     if (loginData.password.length < 8) {
-      return "Password should be at least 8 symbols";
+      setPasswordError("Password should be at least 8 symbols");
+      return false
     } else {
-      return "";
+      return true
     }
   };
 
-  function handleEmail() {
+  function handleEmail(){
     if (loginData.email.length < 5 || !loginData.email.includes("@")) {
-      return "Email should be at least 5 symbols and contain '@' sign";
+      setEmailError("Email should be at least 5 symbols and contain '@' sign");
+      return false
     } else {
-      return "";
+      return true
     }
-  }
+  };
 
-  const isValid = () => {
-    setLoginError({ password: handlePassword(), email: handleEmail() });
-    if (loginError.email === "" && loginError.password === "") {
+  function isValid(){
+    let validPass = handlePassword()
+    let validMail = handleEmail()
+
+    if (
+      validPass === true &&
+      validMail === true
+    ) {
       return true;
     } else {
       return false;
     }
   };
+
   useEffect(() => {
     if (firstUpdate.current) {
       firstUpdate.current = false;
@@ -94,7 +100,7 @@ export function Login() {
             style={{ color: "red", fontWeight: "350", fontSize: "0.8em" }}
           >
             {" "}
-            {loginError.email}
+            {emailError}
           </div>
           <div className="mb-3">
             <label className="form-label">Password</label>
@@ -112,7 +118,7 @@ export function Login() {
             style={{ color: "red", fontWeight: "350", fontSize: "0.8em" }}
           >
             {" "}
-            {loginError.password}
+            {passwordError}
           </div>
           <button
             type="submit"

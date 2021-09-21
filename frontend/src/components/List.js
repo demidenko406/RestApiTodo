@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import NavBar from "./NavBar";
 import "./styles/List.css";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation,Redirect } from "react-router-dom";
 import HandleDayTask from "./DayTask";
 import axios from "../axios";
 
@@ -10,6 +10,7 @@ export function List() {
   const [api_data, setData] = useState();
   const [completeTask, setComplete] = useState();
   const [toRerender, setRerender] = useState(false);
+  const [toRedirect, setToRedirect] = useState(false);
 
   const apiURL = "http://localhost:8000/api/task";
 
@@ -25,7 +26,10 @@ export function List() {
           setData(request.data);
         }
       } catch (error) {
-        console.log(error);
+        console.log(error.response);
+        if(error.response.status == 401 && error.response.headers.Authorization == null){
+          setToRedirect(true)
+        }
       }
     }
     fetchList();
@@ -53,6 +57,10 @@ export function List() {
       setRerender(true);
     }
   }, [completeTask]);
+
+  if (toRedirect === true) {
+    return <Redirect to="/login/" />;
+  }
 
   if (api_data) {
     return (
