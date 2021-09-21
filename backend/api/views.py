@@ -24,12 +24,10 @@ from asgiref.sync import sync_to_async
 logger = settings.LOGGER
 
 
-
-
 def async_email(name, email):
     subject = 'User was created'
     message = f'Hello {name}, your registration is complete.'
-    return send_mail(subject,message,settings.DEFAULT_FROM_EMAIL,[email])
+    return send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
 
 
 class UserCreateMixin(object):
@@ -129,7 +127,8 @@ class Register(APIView):
             user = serializer.save()
             if user:
                 json = serializer.data
-                mail_task = threading.Thread(target=async_email,args=(user.username,user.email),daemon=True)
+                mail_task = threading.Thread(target=async_email, args=(
+                    user.username, user.email), daemon=True)
                 mail_task.start()
                 return Response(json, status=status.HTTP_201_CREATED)
         logger.warning("Unsuccesful registration attempt")
