@@ -72,7 +72,7 @@ LOGGER = logging.getLogger(env("LOGGER"))
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(env("DEBUG"))
+DEBUG = True
 LOGGER.warning(env("DEBUG"))
 
 ALLOWED_HOSTS = ["*"]
