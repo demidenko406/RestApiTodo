@@ -22,13 +22,13 @@ axiosInstance.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    if (
-      error.response.status === 401 &&
-      originalRequest.url === "http://127.0.0.1:8000/token/refresh/"
-    ) {
-      window.location.href = "/login/";
-      return Promise.reject(error);
-    }
+    // if (
+    //   error.response.status === 401 &&
+    //   originalRequest.url === "http://0.0.0.0/api/token/refresh/"
+    // ) {
+    //   window.location.href = "/login/";
+    //   return Promise.reject(error);
+    // }
 
     if (
       error.response.data.code === "token_not_valid" &&
@@ -45,7 +45,7 @@ axiosInstance.interceptors.response.use(
 
         if (tokenParts.exp > now) {
           return axiosInstance
-            .post("http://127.0.0.1:8000/token/refresh/", {
+            .post("http://0.0.0.0/api/token/refresh/", {
               refresh: refreshToken,
             })
             .then((response) => {
@@ -71,8 +71,6 @@ axiosInstance.interceptors.response.use(
       }
       
     }
-
-    // specific error handling done elsewhere
     return Promise.reject(error);
   }
 );

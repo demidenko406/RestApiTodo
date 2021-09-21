@@ -16,7 +16,7 @@ export function TaskUpdate() {
     } else {
       async function HandleAdd() {
         try {
-          await axios.put(`http://127.0.0.1:8000/api/task/${id}/`, data);
+          await axios.put(`http://0.0.0.0/api/task/${id}/`, data);
           setToRedirect(true);
         } catch (error) {
           console.log(error);
@@ -30,7 +30,7 @@ export function TaskUpdate() {
     let mounted = true;
 
     async function fetchList() {
-      const request = await axios.get(`http://127.0.0.1:8000/api/task/${id}/`);
+      const request = await axios.get(`http://0.0.0.0/api/task/${id}/`);
       if (mounted) {
         setData(request.data.task);
         setInitial(request.data.tags);

@@ -72,12 +72,13 @@ LOGGER = logging.getLogger(env("LOGGER"))
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 LOGGER.warning(env("DEBUG"))
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['0.0.0.0']
 
-
+STATIC_URL = '/django_static/' 
+STATIC_ROOT = BASE_DIR / 'django_static'
 # Application definition
 
 INSTALLED_APPS = [
@@ -103,7 +104,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
@@ -140,7 +141,8 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ORIGIN_WHITELIST = ("http://localhost:3000",)
+
+
 
 ROOT_URLCONF = "config.urls"
 
@@ -175,15 +177,12 @@ EMAIL_USE_TLS = True
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": env("DATABASE_NAME"),
-        "USER": env("DATABASE_USER"),
-        "PASSWORD": env("DATABASE_PASS"),
-        "HOST": "localhost",
-        "PORT": "5432",
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 
 # Password validation

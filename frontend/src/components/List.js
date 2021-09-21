@@ -12,7 +12,9 @@ export function List() {
   const [toRerender, setRerender] = useState(false);
   const [toRedirect, setToRedirect] = useState(false);
 
-  const apiURL = "http://localhost:8000/api/task";
+  const apiURL = "http://0.0.0.0/api/task";
+  
+
 
   let location = useLocation();
 
@@ -46,11 +48,17 @@ export function List() {
       async function HandleAdd() {
         try {
           await axios.put(
-            `http://127.0.0.1:8000/api/task/${completeTask.id}/`,
+            `http://0.0.0.0/api/task/${completeTask.id}/`,
             completeTask
           );
         } catch (error) {
-          console.log(error);
+          if (error.response.status == 401) {
+            
+            setToRedirect(true)
+          }
+          else{
+            console.log(error);
+          }
         }
       }
       HandleAdd();

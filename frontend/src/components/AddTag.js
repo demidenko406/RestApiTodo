@@ -19,7 +19,7 @@ export function TagCreate() {
     } else {
       async function HandleAdd() {
         try {
-          await axios.post("http://127.0.0.1:8000/api/tag/", post);
+          await axios.post("http://0.0.0.0/api/tag/", post);
           setToRedirect(true);
         } catch (error) {
           console.log(error);

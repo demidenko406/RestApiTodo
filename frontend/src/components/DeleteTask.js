@@ -16,7 +16,7 @@ export function TaskDelete() {
     } else {
       async function HandleDelete() {
         try {
-          await axios.delete(`http://127.0.0.1:8000/api/task/${id}`);
+          await axios.delete(`http://0.0.0.0/api/task/${id}`);
           setToRedirect(true);
         } catch (error) {
           console.log(error);

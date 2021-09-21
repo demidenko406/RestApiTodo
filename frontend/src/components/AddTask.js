@@ -25,7 +25,7 @@ export function TaskCreate() {
     } else {
       async function HandleAdd() {
         try {
-          await axios.post("http://127.0.0.1:8000/api/task/", post);
+          await axios.post("http://0.0.0.0/api/task/", post);
           setToRedirect(true);
         } catch (error) {
           console.log(error);
@@ -39,7 +39,7 @@ export function TaskCreate() {
     let mounted = true;
 
     async function fetchList() {
-      const request = await axios.get("http://127.0.0.1:8000/api/tag/");
+      const request = await axios.get("http://0.0.0.0/api/tag/");
       if (mounted) {
         setInitial(request.data);
       }
