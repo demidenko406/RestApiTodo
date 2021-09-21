@@ -16,6 +16,8 @@ services:
     restart: unless-stopped
     build:
       context: ./backend
+    env_file:
+      - ./backend/.env.dev
     command: gunicorn config.wsgi --bind 0.0.0.0:8000
     expose:
       - 8000
