@@ -22,6 +22,7 @@ services:
     env_file:
       - ./backend/.env
     command: gunicorn config.wsgi --bind 0.0.0.0:8000
+    
     expose:
       - 8000
     depends_on:

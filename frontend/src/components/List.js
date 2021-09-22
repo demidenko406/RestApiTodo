@@ -86,21 +86,16 @@ export function List() {
             <div id="TagList">
               {api_data.tags.map((tag) => (
                 <Link to={`/tag/${tag.id}`} className="TextLink" key={tag.id}>
-                  <div className="Tag" style={{ display: "flex",marginLeft:"0px" }}>
+                  <div
+                    className="Tag"
+                    style={{ display: "flex", marginLeft: "0px" }}
+                  >
                     <p>{tag.title}</p>
                   </div>
                 </Link>
               ))}
-
-              <Link to={"/create-tag/"}>
-                <button
-                  className="btn btn-outline-dark" style={{width:"130px",padding:"1px"}}
-                  >
-                  + Add Tag
-                </button>
-              </Link>
             </div>
-            <div style = {{padding:"1px"}}></div>
+            <div style={{ padding: "1px" }}></div>
             <div id="menu">
               <div id="TaskList">
                 {api_data.tasks.map((task) => {
@@ -207,23 +202,29 @@ export function List() {
                     );
                   }
                 })}
+              </div>
+
+            </div>
+          </div>
+        </div>
+              <div className="Add" style={{ margin: "auto", display: "flex" ,width:"1000px"}}>
+                <Link to={"/create-tag/"}>
+                  <button
+                    className="btn btn-outline-dark"
+                    style={{ width: "150px"}}
+                  >
+                    + Add Tag
+                  </button>
+                </Link>
                 <Link to={"/create-task/"}>
                   <button
                     className="btn btn-outline-dark"
-                    style={{ width: "800px",padding:"1px" }}
+                    style={{ width: "850px"}}
                   >
                     + Add Task
                   </button>
                 </Link>
               </div>
-
-              <div
-                className="Add"
-                style={{ margin: "auto", display: "flex" }}
-              ></div>
-            </div>
-          </div>
-        </div>
       </>
     );
   } else {
